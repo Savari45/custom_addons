@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Define a new Many2many field in account.move.line -->
+    <record id="field_account_move_line_lot_ids" model="ir.model.fields">
+        <field name="name">x_lot_ids</field>
+        <field name="model_id" ref="account.model_account_move_line"/>
+        <field name="field_description">Lot/Serial Numbers</field>
+        <field name="ttype">many2many</field>
+        <field name="relation">stock.lot</field>
+    </record>
+    <!-- ...calculate the expiry date... -->
+    <record id="field_real_estate_property_total_area" model="ir.model.fields">
+        <field name="model_id" ref="account.model_account_move_line"/>
+        <field name="name">x_expiry_date</field>
+        <field name="field_description">Expiry date</field>
+        <field name="ttype">char</field>
+        <field name="depends">product_id</field>
+        <field name="compute"><![CDATA[
+for rec in self:
+    sale_lots = rec.sale_line_ids.mapped('move_ids.lot_ids') if rec.sale_line_ids else self.env['stock.lot']
+    purchase_lots = rec.purchase_line_id.mapped('move_ids.lot_ids') if rec.purchase_line_id else self.env['stock.lot']
+
+    # Collect unique lot IDs
+    lot_ids = {lot.id for lot in sale_lots | purchase_lots}  # Use | for recordset union
+
+    # Collect unique expiry dates as strings
+    expiry_dates = {lot.expiration_date.strftime("%m/%Y") for lot in sale_lots | purchase_lots if lot.expiration_date}
+
+    rec.update({
+        'x_lot_ids': [(6, 0, list(lot_ids))] if lot_ids else [(5, 0, 0)],
+        'x_expiry_date': ", ".join(expiry_dates) if expiry_dates else "",
+    })
+]]></field>
+    </record>
+        <!-- ...calculate the expiry date... -->
+    <record id="field_mrp" model="ir.model.fields">
+        <field name="model_id" ref="stock.model_product_template"/>
+        <field name="name">x_mrp</field>
+        <field name="field_description">MRP Price</field>
+        <field name="ttype">float</field>
+    </record>
+    <record id="field_sale_order_mrp" model="ir.model.fields">
+        <field name="model_id" ref="sale.model_sale_order_line"/>
+        <field name="name">x_mrp_price</field>
+        <field name="field_description">MRP</field>
+        <field name="ttype">float</field>
+        <field name="readonly">False</field>
+        <field name="related">product_template_id.x_mrp</field>
+    </record>
+    <record id="field_mrp_invoice" model="ir.model.fields">
+        <field name="model_id" ref="account.model_account_move_line"/>
+        <field name="name">x_mrp_invoice</field>
+        <field name="field_description">MRP Price</field>
+        <field name="ttype">float</field>
+        <field name="readonly">False</field>
+        <field name="related">product_id.x_mrp</field>
+    </record>
+
+</odoo>

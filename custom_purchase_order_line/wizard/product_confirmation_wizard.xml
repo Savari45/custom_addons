@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_product_confirmation_wizard" model="ir.ui.view">
+        <field name="name">purchase.product.confirmation.wizard.form</field>
+        <field name="model">purchase.product.confirmation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Product Creation">
+                <sheet>
+                    <group>
+                        <field name="message" nolabel="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_create_product" string="Yes" type="object" class="oe_highlight"/>
+                        <button name="action_cancel" string="No" type="object" class="btn-secondary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_product_confirmation_wizard" model="ir.actions.act_window">
+        <field name="name">Confirm Product Creation</field>
+        <field name="res_model">purchase.product.confirmation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

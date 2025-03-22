@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template inherit_id="account.report_invoice_document" id="inherited_invoice_report_template">
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[1]" position="after">
+            <th name="expiry_date" class="text-left">Expiray</th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[2]" position="after">
+            <th name="lot_ids" class="text-left">Lots</th>
+        </xpath>
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[1]" position="after">
+            <td name="expiry_date" class="text-left">
+                <t t-esc="line.expiry_date or ''"/>
+            </td>
+        </xpath>
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[2]" position="after">
+            <td name="lot_ids" class="text-left">
+                <t t-esc="', '.join(line.lot_ids.mapped('name')) if line.lot_ids else ''"/>
+            </td>
+        </xpath>
+    </template>
+    <template id="remove_stock_account_report_invoice_table" inherit_id="account.report_invoice_document">
+        <!-- Locate the table and remove it -->
+        <xpath expr="//table[@name='invoice_snln_table']" position="replace">
+            <!-- Replace the table with nothing -->
+        </xpath>
+    </template>
+
+</odoo>

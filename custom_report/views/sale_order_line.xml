@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    <record model="ir.ui.view" id="sale_margin_sale_order_inherit">-->
+    <!--        <field name="name">sale.order.margin.view.form_inherit</field>-->
+    <!--        <field name="model">sale.order</field>-->
+    <!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//div[hasclass('d-flex', 'float-end') and @colspan='2']">-->
+    <!--                <div class="d-flex float-end" colspan="2" groups="base.group_user">-->
+    <!--                    <div>-->
+    <!--                        <field name="margin" class="oe_inline" nolabel="1"/>-->
+    <!--                        <field name="amount_untaxed" invisible="1"/>-->
+    <!--                        <span class="oe_inline" invisible="amount_untaxed == 0">-->
+    <!--                            (<field name="margin_percent" nolabel="1" class="oe_inline" widget="percentage"/>)-->
+    <!--                        </span>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_invoice"
+                        string="Print Invoice"
+                        type="object"
+                        class="btn-primary"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_a4_print_invoice"
+                        string="Print A4 Invoice"
+                        type="object"
+                        class="btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="mobile" string="Mobile Number"/>
+                <field name="adhar" string="Adhar Number" widget="CopyClipboardChar" readonly="0"/>
+            </xpath>
+
+
+            <!--             <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="attributes">-->
+            <!--                <attribute name="domain">[('qty_available', '>', 0)]</attribute>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//field[@name='order_line']/list/field[@name='product_template_id']" position="attributes">-->
+            <!--                <attribute name="domain">[('qty_available', '>', 0)]</attribute>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+    <!--    <record id="view_order_product_search_inherit" model="ir.ui.view">-->
+    <!--        <field name="name">sale.report.search.inherit</field>-->
+    <!--        <field name="model">sale.report</field>-->
+    <!--        <field name="inherit_id" ref="sale.view_order_product_search"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//group[@expand='1']" position="inside">-->
+    <!--                <filter string="Sub Category" name="group_by_sub_category" context="{'group_by': 'sub_categ_id'}"/>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+    <record id="res_partner_form_inherited" model="ir.ui.view">
+        <field name="name">res.partner.form.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='function']" position="before">
+                <field name="adhar_no" string="Adhar Number"></field>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <templates>-->
+<!--        &lt;!&ndash; Inherit the existing WhatsApp button in Chatter &ndash;&gt;-->
+<!--        <t t-name="whatsapp.Chatter.inherit" t-inherit="whatsapp.Chatter" t-inherit-mode="extension">-->
+<!--            <xpath expr="//button[contains(@t-on-click, 'sendWhatsapp')]" position="attributes">-->
+<!--                <attribute name="class">btn btn-primary text-white text-nowrap me-1</attribute>-->
+<!--            </xpath>-->
+<!--        </t>-->
+<!--    </templates>-->
+
+
+    <!--    <record id="product_template_only_form_view_category" model="ir.ui.view">-->
+    <!--        <field name="name">product.template.product.form.category</field>-->
+    <!--        <field name="model">product.template</field>-->
+    <!--        <field name="inherit_id" ref="product.product_template_form_view"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//field[@name='categ_id']" position="after">-->
+
+    <!--                    <field name="a_percentage" string="A (%)"/>-->
+    <!--                    <field name="b_percentage" string="B (%)"/>-->
+    <!--                    <field name="c_percentage" string="C (%)"/>-->
+    <!--                    <field name="d_percentage" string="D (%)"/>-->
+    <!--                    <field name="margin_percentage" string="Margin (%)" readonly="1"/>-->
+    <!--                    <field name="sub_categ_id" string="Sub Category"/>-->
+
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+</odoo>
