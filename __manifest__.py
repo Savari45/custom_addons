@@ -17,7 +17,7 @@
     'data': [
         'data/patient_id_sequence.xml',
         'data/dental_specialist_data.xml',
-        # 'data/dental_treatment_data.xml',
+        'data/dental_treatment_data.xml',
         'data/dental_time_shift_data.xml',
         'data/medicine_frequency_data.xml',
         'data/treatment_category_data.xml',
@@ -26,7 +26,7 @@
         'views/dental_doctor_views.xml',
         'views/dental_prescription_views.xml',
         # 'views/doctor_views.xml',
-        'views/dental_purpose_views.xml',
+        # 'views/dental_purpose_views.xml',
         'views/teeth_chart_views.xml',
         'views/dental_treatment_views.xml',
         'views/treatment_category_views.xml',

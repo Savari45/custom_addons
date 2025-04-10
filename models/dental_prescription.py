@@ -79,6 +79,8 @@ class DentalPrescription(models.Model):
                                    help="medicines")
     invoice_data_id = fields.Many2one(comodel_name="account.move", string="Invoice Data",
                                       help="Invoice Data")
+    treatment_invoice_id = fields.Many2one('account.move', string="Treatment Invoice")
+    prescription_invoice_id = fields.Many2one('account.move', string="Prescription Invoice")
     selected_teeth = fields.Char(string="Selected Teeth",help="Selected Teeth")
     referred_dentist_id = fields.Many2one(
         'hr.employee', string='Referred Dentist',
@@ -94,9 +96,12 @@ class DentalPrescription(models.Model):
     #                            help="Get the grand total amount")
 
     @api.model_create_multi
-    def create(self, vals_list):
+    def create(self, vals):
         """Ensure the next appointment is updated/created when a prescription is created."""
-        records = super(DentalPrescription, self).create(vals_list)
+        vals = vals[0]
+        if vals.get('sequence_no', _('New')) == _('New'):
+                vals['sequence_no'] = self.env['ir.sequence'].next_by_code('dental.prescriptions') or _('New')
+        records = super(DentalPrescription, self).create(vals)
         for record in records:
             record._update_or_create_appointment()
         return records
@@ -176,19 +181,14 @@ class DentalPrescription(models.Model):
         self.appointment_id.state = 'done'
 
     def create_invoice(self):
-        """Create an invoice based on the patient invoice and manage stock moves for medicines."""
+        """Create two separate invoices: one for treatment and one for prescribed medicines."""
         self.ensure_one()
-        medicine_moves = []
-        for rec in self.medicine_ids:
-            product_id = self.env['product.product'].search([
-                ('product_tmpl_id', '=', rec.medicament_id.id)], limit=1)
-            if product_id and product_id.type == 'consu':  # Only stockable products
-                medicine_moves.append({
-                    'product_id': product_id,
-                    'quantity': rec.quantity,
-                })
 
-        invoice_vals = {
+        if not self.treatment_id:
+            raise UserError(_("No treatment selected."))
+
+        # ---------- TREATMENT INVOICE ----------
+        treatment_invoice_vals = {
             'move_type': 'out_invoice',
             'partner_id': self.patient_id.id,
             'state': 'draft',
@@ -200,27 +200,51 @@ class DentalPrescription(models.Model):
                 })
             ]
         }
-        invoice = self.env['account.move'].create(invoice_vals)
+        treatment_invoice = self.env['account.move'].create(treatment_invoice_vals)
 
+        # ---------- PRESCRIPTION INVOICE ----------
+        medicine_invoice_lines = []
+        medicine_moves = []
         for rec in self.medicine_ids:
-            product_id = self.env['product.product'].search([
+            product = self.env['product.product'].search([
                 ('product_tmpl_id', '=', rec.medicament_id.id)], limit=1)
-            if product_id:
-                invoice.write({
-                    'invoice_line_ids': [(0, 0, {
-                        'product_id': product_id.id,
+            if product:
+                # Add medicine line
+                medicine_invoice_lines.append(
+                    fields.Command.create({
+                        'product_id': product.id,
                         'name': rec.display_name,
                         'quantity': rec.quantity,
                         'price_unit': rec.price,
-                    })]
-                })
+                    })
+                )
 
+                # Track movement if stockable
+                if product.type == 'consu':
+                    medicine_moves.append({
+                        'product_id': product,
+                        'quantity': rec.quantity,
+                    })
+
+        if not medicine_invoice_lines:
+            raise UserError(_("No valid medicines to invoice."))
+
+        prescription_invoice_vals = {
+            'move_type': 'out_invoice',
+            'partner_id': self.patient_id.id,
+            'state': 'draft',
+            'invoice_line_ids': medicine_invoice_lines,
+        }
+        prescription_invoice = self.env['account.move'].create(prescription_invoice_vals)
+
+        # ---------- STOCK MOVEMENT ----------
         if medicine_moves:
             warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
             if not warehouse:
                 raise UserError(_('No warehouse found for the company. Please configure a warehouse.'))
-            source_location = warehouse.lot_stock_id  # Clinic's stock location
-            customer_location = self.env.ref('stock.stock_location_customers')  # Customer location
+
+            source_location = warehouse.lot_stock_id
+            customer_location = self.env.ref('stock.stock_location_customers')
 
             for move in medicine_moves:
                 self.env['stock.move'].create({
@@ -234,17 +258,18 @@ class DentalPrescription(models.Model):
                     'state': 'done',
                 })
 
-        self.invoice_data_id = invoice.id
+        # Link only treatment invoice (or both if needed)
+        self.invoice_data_id = treatment_invoice.id
         self.state = 'invoiced'
 
+        # ---------- RETURN BOTH INVOICES ----------
         return {
-            'name': _('Customer Invoice'),
-            'view_mode': 'form',
-            'view_id': self.env.ref('account.view_move_form').id,
-            'res_model': 'account.move',
-            'context': "{'move_type':'out_invoice'}",
             'type': 'ir.actions.act_window',
-            'res_id': self.invoice_data_id.id,
+            'name': 'Treatment & Prescription Invoices',
+            'res_model': 'account.move',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', [treatment_invoice.id, prescription_invoice.id])],
+            'context': "{'move_type':'out_invoice'}",
         }
 
     def action_view_invoice(self):

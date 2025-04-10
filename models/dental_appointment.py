@@ -5,7 +5,9 @@ class DentalAppointment(models.Model):
     _name = 'dental.appointment'
     _description = 'Dental Appointment'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'appointment_no'  # Set appointment_no as the display name
+    _rec_name = 'display_name' # Set appointment_no as the display name
+
+    display_name = fields.Char(compute='_compute_display_name', store=True)
 
     patient_id = fields.Many2one('res.partner', string='Patient', required=True, domain="[('is_patient', '=', True)]")
     tooth_ids = fields.Many2many('dental.tooth', string="Teeth Affected")
@@ -26,8 +28,10 @@ class DentalAppointment(models.Model):
         ('normal', 'Normal'),
         ('urgent', 'Urgent')
     ], string='Treatment Type')
+    patient_categ = fields.Selection([('old', 'Old'),('new','New')],string='Patient Category')
 
     purpose = fields.Many2many('dental.purpose', string='Purpose')
+    treatments = fields.Many2many('dental.treatment', string='Treatments')
     dentist_id = fields.Many2one(
         'hr.employee',
         string='Dentist',
@@ -51,6 +55,11 @@ class DentalAppointment(models.Model):
                                string="Booking Time",
                                domain="[('id','in',time_shift_ids)]",
                                help="Choose the time shift")
+
+    @api.depends('appointment_no', 'patient_id', 'appointment_date')
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"{rec.patient_id.name or ''}"
 
     @api.model_create_multi
     def create(self, vals_list):

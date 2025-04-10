@@ -1,6 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 smile_hospital.access_dental_appointment,access_dental_appointment,smile_hospital.model_dental_appointment,base.group_user,1,1,1,1
-smile_hospital.access_dental_purpose,access_dental_purpose,smile_hospital.model_dental_purpose,base.group_user,1,1,1,1
 smile_hospital.access_dental_tooth,access_dental_tooth,smile_hospital.model_dental_tooth,base.group_user,1,1,1,1
 smile_hospital.access_teeth_chart,access_teeth_chart,smile_hospital.model_teeth_chart,base.group_user,1,1,1,1
 smile_hospital.access_medical_questionnaire,access_medical_questionnaire,smile_hospital.model_medical_questionnaire,base.group_user,1,1,1,1

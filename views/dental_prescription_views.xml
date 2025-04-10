@@ -37,7 +37,7 @@
                             string="Prescribe" class="btn-primary"
                             type="object" invisible="state != 'new'"/>
                     <button name="action_print_prescription" string="Print" class="btn-primary"
-                            type="object"/>
+                            type="object" invisible="state != 'done'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="new,done"
                            on_change="1" field_id="state_0"/>

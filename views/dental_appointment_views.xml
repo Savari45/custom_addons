@@ -11,11 +11,13 @@
                     <field name="dentist_id"/>
                     <field name="appointment_date"/>
                     <field name="urgency"/>
+                    <field name="treatments"/>
+
                     <!-- Filter -->
                     <filter string="Today" name="today" domain="[('appointment_date', '=', context_today())]"/>
                     <filter string="Yesterday" name="yesterday"
                             domain="[('appointment_date', '=', (context_today() - datetime.timedelta(days=1)))]"/>
-                     <filter string="Show All" name="show_all" domain="[]"/>
+                    <filter string="Show All" name="show_all" domain="[]"/>
 
                     <group expand="0" string="Group By">
                         <filter name="group_by_dentist" string="Dentist" domain="[]"
@@ -23,6 +25,10 @@
                         <filter name="group_by_urgency" string="Urgency" domain="[]" context="{'group_by': 'urgency'}"/>
                         <filter name="confirm" string="Confirm"
                                 domain="[('state', 'in', ['confirmed'])]"/>
+                        <filter name="group_by_state" string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter name="group_by_treatments" string="Treatments" domain="[]"
+                                context="{'group_by': 'treatments'}"/>
+
                     </group>
                 </search>
             </field>
@@ -79,33 +85,37 @@
                                 <field name="time_shift_ids" widget="many2many_tags"/>
                                 <field name="shift_id"/>
                                 <field name="urgency"/>
+                                <field name="patient_categ" widget="radio" options="{'horizontal': True}"/>
                             </group>
                             <group>
                                 <field name="appointment_date"/>
-                                <field name="purpose" widget="many2many_tags"/>
-
+                                <!--                                <field name="purpose" widget="many2many_tags"/>-->
+                                <field name="treatments" widget="many2many_tags"/>
                             </group>
                         </group>
                     </sheet>
                 </form>
             </field>
         </record>
-                <!-- Calendar VIEW -->
+        <!-- Calendar VIEW -->
 
-         <record id="view_dental_appointment_calendar" model="ir.ui.view">
+        <record id="view_dental_appointment_calendar" model="ir.ui.view">
             <field name="name">dental.appointment.calendar</field>
             <field name="model">dental.appointment</field>
             <field name="arch" type="xml">
-                <calendar string="Dental Appointment" date_start="appointment_date" mode="month" color="state" quick_create="0">
+                <calendar string="Dental Appointment" date_start="appointment_date" mode="month" color="state"
+                          quick_create="0">
+                    <field name="display_name"/>
                     <field name="appointment_no"/>
                     <field name="patient_id" filters="1" avatar_field="image"/>
                     <field name="patient_no"/>
                     <field name="dentist_id"/>
                     <field name="shift_id"/>
                     <field name="state" invisible="1" filters="1"/>
+                    <!--                    <field name="treatments" invisible="1" filters="1"/>-->
                 </calendar>
             </field>
-         </record>
+        </record>
 
         <!-- TREE VIEW -->
         <record id="view_dental_appointment_tree" model="ir.ui.view">
@@ -162,20 +172,21 @@
             <field name="res_model">dental.appointment</field>
             <field name="view_mode">calendar,kanban,list,form</field>
             <field name="domain">[]</field>
-<!--            <field name="context">{'search_default_today':1}</field>-->
-<!--            <field name="view_ids" eval="[(5, 0, 0),-->
-<!--                                             (0, 0, {'view_mode': 'kanban', 'view_id': ref('appointment_view_kanban')}),-->
-<!--                                            (0, 0, {'view_mode': 'list', 'view_id': ref('view_dental_appointment_tree')}),-->
-<!--                                            (0, 0, {'view_mode': 'form', 'view_id': ref('view_dental_appointment_form')}),-->
-<!--                                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_dental_appointment_calendar')})]"-->
-<!--            />-->
+            <!--            <field name="context">{'search_default_today':1}</field>-->
+            <!--            <field name="view_ids" eval="[(5, 0, 0),-->
+            <!--                                             (0, 0, {'view_mode': 'kanban', 'view_id': ref('appointment_view_kanban')}),-->
+            <!--                                            (0, 0, {'view_mode': 'list', 'view_id': ref('view_dental_appointment_tree')}),-->
+            <!--                                            (0, 0, {'view_mode': 'form', 'view_id': ref('view_dental_appointment_form')}),-->
+            <!--                                            (0, 0, {'view_mode': 'calendar', 'view_id': ref('view_dental_appointment_calendar')})]"-->
+            <!--            />-->
         </record>
 
         <!-- MENU STRUCTURE -->
-         <menuitem id="dentist_menu_root"
-              web_icon="smile_hospital,static/src/img/icon.png"
-              name="Dental Clinic"/>
-        <menuitem id="hospital_root_menu" name="Dental Clinic" sequence="1"  web_icon="smile_hospital,static/src/img/icon.png"/>
+        <menuitem id="dentist_menu_root"
+                  web_icon="smile_hospital,static/src/img/icon.png"
+                  name="Dental Clinic"/>
+        <menuitem id="hospital_root_menu" name="Dental Clinic" sequence="1"
+                  web_icon="smile_hospital,static/src/img/icon.png"/>
         <menuitem id="hospital_appointment_info" name="Appointments" parent="hospital_root_menu"
                   action="dental_appointment_menu_action" sequence="2"/>
     </data>

@@ -1,6 +1,6 @@
 from.import patient
 # from.import doctor
-from.import dental_purpose
+# from.import dental_purpose
 from.import dental_tooth
 from.import teeth_chart
 from.import medical_questionnaire
