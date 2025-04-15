@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherit standard external layout to modify the header -->
+    <template id="custom_standard_external_layout" inherit_id="web.external_layout_boxed">
+        <xpath expr="//div[1]" position="replace">
+            <div style="border: 1px solid black;">
+
+                <!-- Wrapper for the entire invoice with border -->
+                <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style"
+                     style="border: 2px solid black; padding: 15px; margin-bottom: 10px;">
+
+                    <!-- Invoice Title -->
+                    <h3 style="text-align: center; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;">
+                        TAX INVOICE
+                    </h3>
+
+                    <!-- Header Layout -->
+                    <div style="border: 1px solid black; padding: 15px; margin-bottom: 15px;">
+
+
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-between align-items-start">
+                                <!-- Left: Company Logo & Details -->
+                                <td>
+                                    <div style="width: 60%;">
+                                        <div class="d-flex align-items-stretch">
+                                            <!-- Logo and SINCE 1995 -->
+                                            <div class="text-center" style="margin-right: 10px;">
+                                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                                     style="max-height:60px; max-width:80px; display: block; margin-bottom: 3px;"
+                                                     alt="Company Logo"/>
+                                                <div style="font-size: 10px; font-weight: bold;">SINCE 1995</div>
+                                            </div>
+                                            <!-- Company Details -->
+                                            <div>
+                                                <strong style="font-size: 18px;">Greenish Healthcare</strong>
+                                                <br/>
+                                                No: 6, Dooming Lane, Santhome, Chennai – 600 004
+                                                <br/>
+                                                <strong>Cell:</strong>
+                                                8111 000 479, 8111 000 438
+                                                <br/>
+                                                <strong>Email:</strong>
+                                                greenishhealthcare2@gmail.com
+                                                <br/>
+                                                <strong>Website:</strong>
+                                                www.greenishhealthcare.com
+                                                <br/>
+                                                <strong>GSTIN/UIN:</strong>
+                                                33AHHPA7550P1Z5
+                                                <br/>
+                                                <strong>PAN:</strong>
+                                                AHHPA7550P
+                                                <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Right: GST and Business Details -->
+                                    <div style="width: 40%;">
+                                        <strong style="font-size: 14px;">To:</strong>
+                                        <br/>
+                                        <span style="margin-left: 20px;">
+                                            <t t-esc="o.partner_id.name"/>,
+                                        </span>
+                                        <br/>
+                                        <t t-if="o.partner_id.street">
+                                            <span style="margin-left: 20px;">
+                                                <t t-esc="o.partner_id.street"/>,
+                                            </span>
+                                            <br/>
+                                        </t>
+                                        <t t-if="o.partner_id.city or o.partner_id.zip">
+                                            <span style="margin-left: 20px;">
+                                                <t t-esc="o.partner_id.city"/>,
+                                                <t t-if="o.partner_id.zip">,
+                                                    <t t-esc="o.partner_id.zip"/>
+                                                </t>
+                                            </span>
+                                            <br/>
+                                        </t>
+                                        <t t-if="o.partner_id.phone">
+                                            <span style="margin-left: 20px;">
+                                                <strong>Phone:</strong>.
+                                                <t t-esc="o.partner_id.phone"/>
+                                            </span>
+                                            <br/>
+                                        </t>
+
+<!--                                        <t t-if="o.partner_id.mobile">-->
+<!--                                            <span style="margin-left: 20px;">-->
+<!--                                                <strong>Mobile:</strong>-->
+<!--                                                <t t-esc="o.partner_id.mobile"/>-->
+<!--                                            </span>-->
+<!--                                            <br/>-->
+<!--                                        </t>-->
+                                        <t t-if="o.partner_id.vat">
+                                            <span style="margin-left: 20px;">
+                                                <strong>GST:</strong>
+                                                <t t-esc="o.partner_id.vat"/>
+                                            </span>
+                                            <br/>
+                                        </t>
+                                    </div>
+                                </td>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+    <!--    <template id="resize_the_invoice_report" inherit_id="account.report_invoice_document">-->
+    <!--        <xpath expr="//t[@t-set='address']" position="replace">-->
+    <!--            &lt;!&ndash;  Empty or comment out customer address rendering  &ndash;&gt;-->
+    <!--            <t t-raw="0"/>-->
+    <!--            &lt;!&ndash;  This will remove the customer section  &ndash;&gt;-->
+    <!--        </xpath>-->
+    <!--        <xpath expr="//div[@id='informations']" position="replace">-->
+    <!--            <div class=" ">-->
+    <!--                &lt;!&ndash;  Keep the rest of your invoice details here as per the original structure  &ndash;&gt;-->
+    <!--            </div>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+    <!--    <template id="change_the_invoice_report_name" inherit_id="l10n_in.l10n_in_report_invoice_document_inherit">-->
+    <!--        <xpath expr="//t[@t-set='layout_document_title']" position="replace">-->
+    <!--            <t t-set="layout_document_title">-->
+    <!--                <span style="font-size: 18px;">-->
+    <!--                    <span t-if="o.move_type == 'out_invoice' and o.state == 'posted'" t-field="o.journal_id.name"/>-->
+    <!--                    <span t-elif="o.move_type == 'out_invoice' and o.state == 'draft'">Draft-->
+    <!--                        <span t-field="o.journal_id.name"/>-->
+    <!--                    </span>-->
+    <!--                    <span t-elif="o.move_type == 'out_invoice' and o.state == 'cancel'">Cancelled-->
+    <!--                        <span t-field="o.journal_id.name"/>-->
+    <!--                    </span>-->
+    <!--                    <span t-elif="o.move_type == 'out_refund' and o.state == 'posted'">Credit Note</span>-->
+    <!--                    <span t-elif="o.move_type == 'out_refund' and o.state == 'draft'">Draft Credit Note</span>-->
+    <!--                    <span t-elif="o.move_type == 'out_refund' and o.state == 'cancel'">Cancelled Credit Note</span>-->
+    <!--                    <span t-elif="o.move_type == 'in_refund'">Vendor Credit Note</span>-->
+    <!--                    <span t-elif="o.move_type == 'in_invoice'">Vendor Bill</span>-->
+    <!--                    <span t-if="o.name != '/'" t-field="o.name"/>-->
+    <!--                </span>-->
+    <!--            </t>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+</odoo>
+

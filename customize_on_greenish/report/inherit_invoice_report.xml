@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <template inherit_id="l10n_in.l10n_in_report_invoice_document_inherit" id="inherit_remove_hsn">
-        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_description']/span" position="replace">
-            <span>Product</span>
-        </xpath>
-        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_quantity']/span" position="replace">
-            <span>Qty</span>
-        </xpath>
+    <template inherit_id="account.report_invoice_document" id="change_the_table_header">
+    <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_description']/span" position="replace">
+        <span>Product</span>
+    </xpath>
+    <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_quantity']/span" position="replace">
+        <span>Qty</span>
+    </xpath>
 
-        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_priceunit']/span" position="replace">
-            <span>Price</span>
-        </xpath>
+    <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_priceunit']/span" position="replace">
+        <span>Price</span>
+    </xpath>
+    </template>
+    <template inherit_id="l10n_in.l10n_in_report_invoice_document_inherit" id="inherit_remove_hsn">
+
         <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[1]" position="after">
             <th name="x_expiry_date" class="text-left">Exp Dt</th>
         </xpath>
