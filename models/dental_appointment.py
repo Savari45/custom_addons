@@ -59,7 +59,7 @@ class DentalAppointment(models.Model):
     @api.depends('appointment_no', 'patient_id', 'appointment_date')
     def _compute_display_name(self):
         for rec in self:
-            rec.display_name = f"{rec.patient_id.name or ''}"
+            rec.display_name = f"{rec.patient_id.name or ''} - {rec.shift_id.name or ''}"
 
     @api.model_create_multi
     def create(self, vals_list):

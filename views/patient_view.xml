@@ -109,9 +109,9 @@
             <xpath expr="//button[@name='action_see_documents']" position="attributes">
                 <attribute name="invisible">company_type == 'person'</attribute>
             </xpath>
-            <!--            <xpath expr="//div[@name='button_box']//button[@name='open_partner_ledger']" position="attributes">-->
-            <!--                <attribute name="invisible">company_type == 'person'</attribute>-->
-            <!--            </xpath>-->
+            <!--                        <xpath expr="//button[@name='open_partner_ledger']" position="attributes">-->
+            <!--                            <attribute name="invisible">company_type == 'person'</attribute>-->
+            <!--                        </xpath>-->
             <xpath expr="//button[@name='action_view_sale_order']" position="attributes">
                 <attribute name="invisible">company_type == 'person'</attribute>
             </xpath>
@@ -133,6 +133,13 @@
         <field name="domain">[('is_patient','=',True)]</field>
         <field name="view_mode">list,form</field>
     </record>
+    <record id="action_patient_invoices" model="ir.actions.act_window">
+        <field name="name">Invoices</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', '=', 'out_invoice')]</field>
+    </record>
+
 
     <!-- Main Dental Clinic Menu (Root) -->
     <menuitem
@@ -147,6 +154,15 @@
             action="dental_patient_menu"
             sequence="3"
 
+    />
+
+    <!-- Submenu: Invoices (next to Patients) -->
+    <menuitem
+            id="hospital_invoice_info"
+            name="Invoices"
+            parent="hospital_root_menu"
+            action="action_patient_invoices"
+            sequence="4"
     />
 
 </odoo>
