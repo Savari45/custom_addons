@@ -16,9 +16,9 @@
         'actions/report_action.xml',
 
     ],
-
+    'images': ['static/description/banner.gif'],
     'installable': True,
     'application': False,
     'auto_install': False,
-    'license': 'AGPL-3',
+    'license': 'LGPL-3',
 }
