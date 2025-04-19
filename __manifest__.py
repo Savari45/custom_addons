@@ -25,6 +25,7 @@
         'views/dental_appointment_views.xml',
         'views/dental_doctor_views.xml',
         'views/dental_prescription_views.xml',
+        'views/dental_payment_log_views.xml',
         # 'views/doctor_views.xml',
         # 'views/dental_purpose_views.xml',
         'views/teeth_chart_views.xml',

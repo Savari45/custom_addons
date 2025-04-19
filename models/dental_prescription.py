@@ -179,7 +179,8 @@ class DentalPrescription(models.Model):
                     'quantity': 1,
                     'price_unit': self.cost,
                 })
-            ]
+            ],
+            'is_treatment_invoice': True,
         }
         treatment_invoice = self.env['account.move'].create(treatment_invoice_vals)
 
@@ -266,6 +267,13 @@ class DentalPrescription(models.Model):
         }
     def action_print_prescription(self):
         return self.env.ref('smile_hospital.report_pdf_dental_prescription').report_action(self)
+
+    def action_open_patient_payments(self):
+        self.ensure_one()
+        return self.patient_id.with_context({
+            'default_treatment_name': self.treatment_id.name,
+            'default_treatment_cost': self.cost
+        }).action_open_patient_payments()
 
 
 

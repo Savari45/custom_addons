@@ -105,7 +105,6 @@
             <field name="arch" type="xml">
                 <calendar string="Dental Appointment" date_start="appointment_date" mode="month" color="state"
                           quick_create="0">
-<!--                    <field name="display_name"/>-->
                     <field name="appointment_no"/>
                     <field name="patient_id" filters="1" avatar_field="image"/>
                     <field name="patient_no"/>

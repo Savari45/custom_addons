@@ -12,7 +12,10 @@
                         help="prescription view of appointment" invisible="not is_patient"/>
                 <button name="action_teeth_chart" type="object" class="btn btn-primary" string="Teeth Chart"
                         icon="fa-stethoscope"
-                        help="View the patient's teeth chart"/>
+                        help="View the patient's teeth chart" invisible="not is_patient"/>
+                <button name="action_open_patient_payments" type="object" class="oe_stat_button" icon="fa-paperclip" string="Payment Log"
+                        help="View the patient's Treatment and Payment Log" invisible="not is_patient"/>
+
             </xpath>
             <!-- Added custom fields -->
             <xpath expr="//field[@name='function']" position="replace">

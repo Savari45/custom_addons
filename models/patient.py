@@ -94,13 +94,6 @@ class DentalPatients(models.Model):
             else:
                 record.patient_age = 0
 
-    def action_open_appointments(self):
-        return {
-            'name': 'Appointments',
-            'type': 'ir.actions.act_window',
-            'res_model': 'calender.event',
-            'view_mode': 'list,form',
-        }
 
     def action_prescription(self):
         """Open existing prescriptions in list view or create a new one with auto-filled values."""
@@ -189,3 +182,22 @@ class DentalPatients(models.Model):
                 'res_model': 'teeth.chart',
                 'res_id': teeth_chart.id,
             }
+
+    def action_open_patient_payments(self):
+        """Open all account.payment records for this patient."""
+        self.ensure_one()
+        treatment_name = self.env.context.get('default_treatment_name')
+        treatment_cost = self.env.context.get('default_treatment_cost')
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Patient Payments',
+            'res_model': 'account.payment',
+            'view_mode': 'list,form',
+            'domain': [('partner_id', '=', self.id)],
+            'context': {
+                'search_default_partner_id': self.id,
+                'default_treatment_name': treatment_name,
+                'default_treatment_cost': treatment_cost,
+            },
+            'target': 'current',
+        }

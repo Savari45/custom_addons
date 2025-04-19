@@ -80,7 +80,7 @@
         <field name="view_mode">list,form</field>
     </record>
     <menuitem id="hospital_root_menu" name="Dental Clinic" sequence="1"/>
-    <menuitem id="dental_configure" name="Configure" parent="hospital_root_menu" sequence="5"/>
+    <menuitem id="dental_configure" name="Configure" parent="hospital_root_menu" sequence="6"/>
         <menuitem id="teeth_chart_menu" name="Teeth Chart" parent="dental_configure" action="teeth_chart_action" sequence="1"/>
 
 </odoo>
