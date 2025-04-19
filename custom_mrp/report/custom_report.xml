@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_pos_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <div class="pos-paper">
+                        <!-- Optimized CSS for POS paper format -->
+                        <style>
+                            .pos-paper {
+                                width: 80mm;
+                                font-size: 10px;
+                                line-height: 1.3;
+                                font-family: "Courier New", monospace;
+                            }
+                            .pos-paper table {
+                                width: 100%;
+                                border-collapse: collapse;
+                            }
+                            .pos-paper th, .pos-paper td {
+                                padding: 2px 5px;
+                                text-align: right;
+                            }
+                            .pos-paper th:first-child, .pos-paper td:first-child {
+                                text-align: left;
+                            }
+                            .pos-paper .separator {
+                                border-bottom: 1px dashed black;
+                                margin: 5px 0;
+                            }
+                            .pos-paper .totals div {
+                                margin: 2px 0;
+                            }
+                            @media print {
+                                .pos-paper {
+                                    page-break-after: avoid;
+                                }
+                            }
+                        </style>
+
+                        <!-- Company Info -->
+                        <div>
+                            <strong>
+                                <span t-field="doc.company_id.name"/>
+                            </strong>
+                            <br/>
+                            <span t-field="doc.company_id.street"/><br/>
+                            <span t-field="doc.company_id.city"/>,
+                            <span t-field="doc.company_id.state_id.name"/><br/>
+                            <span t-field="doc.company_id.zip"/>,
+                            <span t-field="doc.company_id.country_id.name"/><br/>
+                            <t t-if="doc.company_id.vat">
+                                Tax ID: <span t-field="doc.company_id.vat"/>
+                            </t>
+                        </div>
+                        <div class="separator"></div>
+
+                        <!-- Invoice Info -->
+                        <div>
+                            <strong>Invoice:</strong> <span t-field="doc.name"/><br/>
+                            <strong>Invoice Date:</strong> <span t-field="doc.invoice_date"/><br/>
+                            <strong>Due Date:</strong> <span t-field="doc.invoice_date_due"/><br/>
+                        </div>
+                        <div class="separator"></div>
+
+                        <!-- Customer Info -->
+                        <div>
+                            <strong>Customer:</strong><br/>
+                            <span t-field="doc.partner_id.name"/><br/>
+                            <span t-field="doc.partner_id.street"/><br/>
+                            <span t-field="doc.partner_id.city"/>,
+                            <span t-field="doc.partner_id.state_id.name"/><br/>
+                            <span t-field="doc.partner_id.zip"/>,
+                            <span t-field="doc.partner_id.country_id.name"/><br/>
+                            <t t-if="doc.partner_id.vat">
+                                Tax ID: <span t-field="doc.partner_id.vat"/>
+                            </t>
+                        </div>
+                        <div class="separator"></div>
+
+                        <!-- Invoice Lines -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-field="line.product_id.name"/></td>
+                                        <td><span t-field="line.quantity"/></td>
+                                        <td>
+                                            <span t-field="line.price_unit"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.price_subtotal"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="separator"></div>
+
+                        <!-- Totals -->
+                        <div class="totals">
+                            <div>
+                                <strong>Untaxed Amount:</strong>
+                                <span t-field="doc.amount_untaxed"
+                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            </div>
+                            <div>
+                                <strong>Tax:</strong>
+                                <span t-field="doc.amount_tax"
+                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            </div>
+                            <div>
+                                <strong>Total:</strong>
+                                <span t-field="doc.amount_total"
+                                      t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                            </div>
+                        </div>
+                        <div class="separator"></div>
+
+                        <!-- Payment Info -->
+                        <div>
+                            <strong>Payment Communication:</strong>
+                            <span t-field="doc.payment_reference"/><br/>
+                            <t t-if="doc.partner_bank_id">
+                                <strong>Bank Account:</strong>
+                                <span t-field="doc.partner_bank_id.acc_number"/>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <templates id="template">
+        <t t-name="custom_purchase_order_line.PurchaseProductDialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><t t-esc="props.title"/></h5>
+                </div>
+                <div class="modal-body">
+                    <p><t t-esc="props.message"/></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" t-on-click="cancel">Cancel</button>
+                    <button class="btn btn-primary" t-on-click="confirm">Create</button>
+                </div>
+            </div>
+        </t>
+    </templates>
+</odoo>

@@ -1,0 +1,23 @@
+<odoo>
+    <report
+        id="report_advance_payment"
+        model="account.payment"
+        string="Advance Payment Report"
+        report_type="qweb-pdf"
+        name="custom_advance_payment.report_advance_payment"
+        file="custom_advance_payment.report_advance_payment"
+    />
+
+    <template id="report_advance_payment">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="payment">
+                <div class="page">
+                    <h2>Advance Payment Receipt</h2>
+                    <p>Partner: <t t-esc="payment.partner_id.name"/></p>
+                    <p>Amount: <t t-esc="payment.amount"/></p>
+                    <p>Payment Date: <t t-esc="payment.date"/></p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

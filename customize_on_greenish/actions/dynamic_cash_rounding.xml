@@ -1,0 +1,28 @@
+<odoo>
+    <!-- Server Action to Apply Cash Rounding -->
+    <record id="action_apply_cash_rounding" model="ir.actions.server">
+        <field name="name">Apply Cash Rounding</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+for invoice in records:
+    if invoice.state == 'draft' and invoice.move_type == 'out_invoice' and not invoice.invoice_cash_rounding_id:
+        rounding = env['account.cash.rounding'].search([('rounding_method', '!=', False)], limit=1)
+        if rounding:
+            invoice.write({'invoice_cash_rounding_id': rounding.id})
+            invoice._recompute_cash_rounding_lines()
+        </field>
+    </record>
+
+    <!-- Automation Rule to Trigger Cash Rounding -->
+    <record id="automated_action_apply_cash_rounding" model="base.automation">
+        <field name="name">Automate Cash Rounding</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="trigger">on_create_or_write</field>
+        <field name="filter_domain">[
+            ('state', '=', 'draft'),
+            ('invoice_cash_rounding_id', '=', False)
+        ]</field>
+        <field name="action_server_ids" eval="[(4, ref('action_apply_cash_rounding'))]"/>
+    </record>
+</odoo>

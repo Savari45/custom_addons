@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherit standard external layout to modify the header -->
+    <template id="custom_standard_external_layout" inherit_id="web.external_layout_bubble">
+        <xpath expr="//div[1]" position="replace">
+            <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+                <!-- Header Layout -->
+                <div class="row mb8">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <!-- Left: Company Logo & Details -->
+                            <div class="text-left">
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)"
+                                     style="max-height:60px; max-width:100%;" alt="Company Logo"/>
+                                <div class="fw-bold" t-if="company.report_header" t-field="company.report_header"/>
+                                <div t-field="company.company_details"/>
+                                <div t-if="company.vat">
+                                    <strong t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                                    <span t-esc="company.vat"/>
+                                </div>
+                            </div>
+
+                            <!-- Right: Customer Details -->
+                            <div class="text-end">
+                                <t t-if="docs">
+                                    <t t-foreach="docs" t-as="doc">
+                                        <t t-if="doc.partner_id">
+                                            <strong t-esc="doc.partner_id.name"/>
+                                            <br/>
+                                            <t t-if="doc.partner_id.street">
+                                                <span t-esc="doc.partner_id.street"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="doc.partner_id.street2">
+                                                <span t-esc="doc.partner_id.street2"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="doc.partner_id.city"><span t-esc="doc.partner_id.city"/>,
+                                            </t>
+                                            <t t-if="doc.partner_id.state_id"><span
+                                                    t-esc="doc.partner_id.state_id.name"/>,
+                                            </t>
+                                            <t t-if="doc.partner_id.zip">
+                                                <span t-esc="doc.partner_id.zip"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="doc.partner_id.country_id">
+                                                <span t-esc="doc.partner_id.country_id.name"/>
+                                                <br/>
+                                            </t>
+                                            <t t-if="doc.partner_id.vat">
+                                                <strong>GSTIN:</strong>
+                                                <span t-esc="doc.partner_id.vat"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Header Border -->
+                <div t-if="company.logo or company.report_header" class="row zero_min_height">
+                    <div class="col-12">
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+<!--    <template id="custom_report_body" inherit_id="l10n_in.l10n_in_report_invoice_document_inherit">-->
+<!--            <xpath expr="//div[@name='address_same_as_shipping']//t[@t-set='address']" position="replace"></xpath>-->
+<!--    </template>-->
+</odoo>

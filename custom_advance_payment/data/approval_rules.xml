@@ -1,0 +1,7 @@
+<odoo>
+    <record id="approval_rule_advance_payment" model="approval.rule">
+        <field name="name">Approve Advance Payment</field>
+        <field name="model_id" ref="account.model_account_payment"/>
+        <field name="required_users">2</field>
+    </record>
+</odoo>

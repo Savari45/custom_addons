@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+
+    <record id="invoice_order_line_form_inherited" model="ir.ui.view">
+        <field name="name">account.line.form.inherited</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/list/field[@name='quantity']" position="after">
+                <field name="lot_ids" string="Lot ID" widget="many2many_tags" optional="hide"/>
+                <field name="expiry_date" string="Expiry Date" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>

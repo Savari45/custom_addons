@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template inherit_id="account.report_invoice_document" id="change_the_table_header">
+    <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_description']/span" position="replace">
+        <span>Product</span>
+    </xpath>
+    <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_quantity']/span" position="replace">
+        <span>Qty</span>
+    </xpath>
+
+    <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[@name='th_priceunit']/span" position="replace">
+        <span>Price</span>
+    </xpath>
+    </template>
+    <template inherit_id="l10n_in.l10n_in_report_invoice_document_inherit" id="inherit_remove_hsn">
+
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[1]" position="after">
+            <th name="x_expiry_date" class="text-left">Exp Dt</th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[2]" position="after">
+            <th name="x_lot_ids" class="text-left">Lots</th>
+        </xpath>
+        <xpath expr="//table[@name='invoice_line_table']/thead/tr/th[3]" position="after">
+            <th name="x_mrp_invoice" class="text-center">MRP</th>
+        </xpath>
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[1]" position="after">
+            <td name="expiry_date" class="text-left">
+                <t t-esc="line.x_expiry_date or ''"/>
+            </td>
+        </xpath>
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[2]" position="after">
+            <td name="x_lot_ids" class="text-left">
+                <t t-esc="', '.join(line.x_lot_ids.mapped('name')) if line.x_lot_ids else ''"/>
+            </td>
+        </xpath>
+        <xpath expr="//t[@name='account_invoice_line_accountable']/td[3]" posistion="after">
+            <td name="mrp" class="text-center">
+                <t t-esc="line.x_mrp_invoice or ''"/>
+            </td>
+        </xpath>
+    </template>
+    <template id="invoice_report_view_bank_details" inherit_id="account.report_invoice_document">
+
+        <xpath expr="//div[hasclass('clearfix')]" position="after">
+            <dl id="bank_account" t-foreach="o.company_id.bank_ids" t-as="ba" class="dl-horizontal text-muted">
+                <dt>Bank:</dt>
+
+                <dd>
+                    <span t-field="ba.bank_id.name"/>
+                </dd>
+            </dl>
+        </xpath>
+    </template>
+    <template id="remove_stock_account_report_invoice_table" inherit_id="account.report_invoice_document">
+        <!-- Locate the table and remove it -->
+        <xpath expr="//table[@name='invoice_snln_table']" position="replace">
+            <!-- Replace the table with nothing -->
+        </xpath>
+    </template>
+
+</odoo>

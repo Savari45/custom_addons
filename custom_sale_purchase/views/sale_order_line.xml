@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_invoice"
+                        string="Print Invoice"
+                        type="object"
+                        class="btn-primary"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_a4_print_invoice"
+                        string="Print A4 Invoice"
+                        type="object"
+                        class="btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="mobile" string="Mobile Number"/>
+                <field name="adhar" string="Adhar Number" widget="CopyClipboardChar" readonly="0"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="res_partner_form_inherited" model="ir.ui.view">
+        <field name="name">res.partner.form.inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='function']" position="before">
+                <field name="adhar_no" string="Adhar Number"></field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Define GST 18% where tax is included in price -->
+    <record id="tax_gst_s_12" model="account.tax">
+        <field name="name">6% SGST S IN</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include_override">tax_included</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">SGST 6%</field>
+        <field name="description">SGST</field>
+        <field name="include_base_amount">False</field>
+    </record>
+    <record id="tax_cgst_s_12" model="account.tax">
+        <field name="name">6% CGST S IN</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include_override">tax_included</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">CGST 6%</field>
+        <field name="description">CGST</field>
+        <field name="include_base_amount">False</field>
+    </record>
+    <!-- Define 18% GST Group Tax (Combining SGST 9% and CGST 9%) -->
+    <record id="tax_gst_group_12" model="account.tax">
+        <field name="name">12% GST S IN</field>
+        <field name="type_tax_use">sale</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="amount_type">group</field>
+        <field name="children_tax_ids" eval="[(6, 0, [ref('tax_gst_s_12'), ref('tax_cgst_s_12')])]"/>
+        <field name="price_include_override">tax_included</field>
+        <field name="invoice_label">GST 12%</field>
+        <field name="description">GST 12%</field>
+    </record>
+    <record id="tax_gst_p_12" model="account.tax">
+        <field name="name">6% SGST P IN</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="price_include_override">tax_included</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">SGST 6%</field>
+        <field name="description">SGST</field>
+        <field name="include_base_amount">False</field>
+    </record>
+    <record id="tax_cgst_p_12" model="account.tax">
+        <field name="name">6% CGST P IN</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="price_include_override">tax_included</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">CGST 6%</field>
+        <field name="description">CGST</field>
+        <field name="include_base_amount">False</field>
+    </record>
+    <record id="tax_gst_group_p_12" model="account.tax">
+        <field name="name">12% GST P IN</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="amount_type">group</field>
+        <field name="children_tax_ids" eval="[(6, 0, [ref('tax_gst_p_12'), ref('tax_cgst_p_12')])]"/>
+        <field name="price_include_override">tax_included</field>
+        <field name="invoice_label">GST 12%</field>
+        <field name="description">GST 12%</field>
+    </record>
+    <!-- tax Exclude-->
+    <record id="tax_gst_s_ex_12" model="account.tax">
+        <field name="name">6% SGST S EX</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include_override">tax_excluded</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">SGST 6%</field>
+        <field name="description">SGST</field>
+        <field name="include_base_amount">True</field>
+    </record>
+    <record id="tax_cgst_s_ex_12" model="account.tax">
+        <field name="name">6% CGST S EX</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="price_include_override">tax_excluded</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">CGST 6%</field>
+        <field name="description">CGST</field>
+        <field name="include_base_amount">True</field>
+    </record>
+    <record id="tax_gst_group_s_ex_12" model="account.tax">
+        <field name="name">12% GST S EX</field>
+        <field name="type_tax_use">sale</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="amount_type">group</field>
+        <field name="children_tax_ids" eval="[(6, 0, [ref('tax_gst_s_ex_12'), ref('tax_cgst_s_ex_12')])]"/>
+        <field name="price_include_override">tax_excluded</field>
+        <field name="invoice_label">GST 12%</field>
+        <field name="description">GST 12%</field>
+    </record>
+    <record id="tax_gst_p_ex_12" model="account.tax">
+        <field name="name">6% SGST P EX</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="price_include_override">tax_excluded</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">SGST 6%</field>
+        <field name="description">SGST</field>
+        <field name="include_base_amount">True</field>
+    </record>
+    <record id="tax_cgst_p_ex_12" model="account.tax">
+        <field name="name">6% CGST P EX</field>
+        <field name="amount">6</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="price_include_override">tax_excluded</field>  <!-- Tax included in price -->
+        <field name="company_id" ref="base.main_company"/>
+        <field name="invoice_label">CGST 6%</field>
+        <field name="description">CGST</field>
+        <field name="include_base_amount">True</field>
+    </record>
+    <record id="tax_gst_group_p_ex_12" model="account.tax">
+        <field name="name">12% GST P EX</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="amount_type">group</field>
+        <field name="children_tax_ids" eval="[(6, 0, [ref('tax_gst_p_ex_12'), ref('tax_cgst_p_ex_12')])]"/>
+        <field name="price_include_override">tax_excluded</field>
+        <field name="invoice_label">GST 12%</field>
+        <field name="description">GST 12%</field>
+    </record>
+</odoo>
