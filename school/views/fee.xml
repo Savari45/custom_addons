@@ -1,0 +1,65 @@
+<odoo>
+    <!-- Search View -->
+    <record id="view_school_fee_payment_search" model="ir.ui.view">
+        <field name="name">school.fee.payment.search</field>
+        <field name="model">school.fee.payment</field>
+        <field name="arch" type="xml">
+            <search string="Search Fee Payments">
+                <field name="admission_no"/>
+                <field name="academic_year"/>
+                <field name="payment_date"/>
+                <filter string="Admission No" name="filter_admission_no" context="{'group_by': 'admission_no'}"/>
+                <filter string="Academic Year" name="filter_academic_year" context="{'group_by': 'academic_year'}"/>
+                <filter string="Payment Mode" name="filter_payment_mode" context="{'group_by': 'payment_mode'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree View (List View) -->
+    <record id="view_school_fee_payment_tree" model="ir.ui.view">
+        <field name="name">school.fee.payment.tree</field>
+        <field name="model">school.fee.payment</field>
+        <field name="arch" type="xml">
+            <list string="Fee Payments">
+                <field name="admission_no"/>
+                <field name="academic_year"/>
+                <field name="amount_paid"/>
+                <field name="payment_date"/>
+                <field name="payment_mode"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_school_fee_payment_form" model="ir.ui.view">
+        <field name="name">school.fee.payment.form</field>
+        <field name="model">school.fee.payment</field>
+        <field name="arch" type="xml">
+            <form string="Fee Payment">
+                <sheet>
+                    <group>
+                        <field name="admission_no"/>
+                        <field name="academic_year"/>
+                        <field name="amount_paid"/>
+                        <field name="payment_date"/>
+                        <field name="payment_mode"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_school_fee_payment" model="ir.actions.act_window">
+        <field name="name">Fee Payments</field>
+        <field name="res_model">school.fee.payment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_school_fee_payment_search"/>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_school_fee_payment_root" name="Fee Management" parent="menu_school_root"/>
+    <menuitem id="menu_school_fee_payment" name="Fee Payments" parent="menu_school_fee_payment_root"
+              action="action_school_fee_payment"/>
+</odoo>
