@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <odoo>
     <!-- Search View -->
     <record id="view_school_student_search" model="ir.ui.view">
@@ -31,7 +30,6 @@
                 <field name="dob"/>
                 <field name="gender"/>
                 <field name="class_id"/>
-                <field name="parent_id"/>
                 <field name="image_1920" widget="image"
                        options="{'preview_image': 'image_1920', 'size': [124, 159]}"/>
             </list>
@@ -88,9 +86,14 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_title" style="margin-bottom: 20px;">
+                        <label for="name" string="Full Name" style="display: block; font-weight: bold; margin-bottom: 5px;"/>
+                        <h1>
+                            <field name="name" class="student_full_name"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="name"/>
                             <field name="admission_no"/>
                             <field name="dob"/>
                             <field name="gender"/>
@@ -119,8 +122,24 @@
                                 </list>
                             </field>
                         </page>
+                        <page string="Track Skills">
+                            <field name="trackskill"/>
+                        </page>
                     </notebook>
                 </sheet>
+                <style>
+                    .student_full_name input {
+                        font-size: 24px !important;
+                        font-weight: bold !important;
+                        height: 40px !important;
+                        padding: 8px !important;
+                        width: 100% !important;
+                    }
+                    .oe_title label {
+                        font-size: 16px !important;
+                        color: #666 !important;
+                    }
+                </style>
             </form>
         </field>
     </record>
@@ -131,9 +150,20 @@
         <field name="res_model">school.student</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="view_school_student_search"/>
+          <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Register a Student!
+              </p>
+            </field>
     </record>
 
     <!-- Menu Items -->
-    <menuitem id="menu_school_root" name="School"/>
-    <menuitem id="menu_school_students" name="Students" parent="menu_school_root" action="action_school_student" sequence="1"/>
+    <menuitem id="menu_school_root"
+              name="School"
+              web_icon="school,static/src/img/icon.png"/>
+    <menuitem id="menu_school_students"
+              name="Students"
+              parent="menu_school_root"
+              action="action_school_student"
+              sequence="1"/>
 </odoo>

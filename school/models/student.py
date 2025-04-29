@@ -31,6 +31,7 @@ class Student(models.Model):
     roll_no = fields.Char(string="Roll No", unique=True, required=True)
     house_address = fields.Text(string="Home Address", required=True)
     doj = fields.Date(string="Date of joining", required=True)
+    trackskill = fields.Text(string="Track Skills")
 
     # 👇 New field for uploading and storing student image
     image_1920 = fields.Image(string="Student Photo", max_width=1920, max_height=1920, store=True)

@@ -10,3 +10,4 @@ class ExamResult(models.Model):
     marks_obtained = fields.Integer(string="Marks Obtained")
     grade = fields.Char(string="Grade")
     status = fields.Selection([('pass', 'Pass'), ('fail', 'Fail')], string="Status")
+    admission_no = fields.Char(string="Admission No")

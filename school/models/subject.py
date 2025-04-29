@@ -8,6 +8,6 @@ class Subject(models.Model):
     name = fields.Char(string="Subject Name", required=True)
     subject_code = fields.Char(string="Subject Code", required=True, unique=True)
     description = fields.Text(string="Description")
-    teacher_ids = fields.Many2many('school.teacher', string="Assigned Teachers")
+    teacher_ids = fields.Many2many('hr.employee', string="Assigned Teachers")
 
 

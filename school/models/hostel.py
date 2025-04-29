@@ -7,7 +7,7 @@ class Hostel(models.Model):
 
     name = fields.Char(string="Hostel Name", required=True)
     code = fields.Char(string="Hostel Code", required=True)
-    address = fields.Text(string="Address")
+    address = fields.Char(string="Address")
     contact_phone = fields.Char(string="Contact Number")
     total_rooms = fields.Integer(string="Total Rooms")
     manager_id = fields.Many2one('res.users', string="Hostel Manager")

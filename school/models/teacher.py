@@ -1,13 +1,13 @@
-from odoo import models, fields, api
-
+from odoo import models, fields
 
 class Teacher(models.Model):
-    _name = 'school.teacher'
-    _description = 'Teacher Record'
+    _inherit = 'hr.employee'
 
-    name = fields.Char(string="Full Name", required=True)
+    is_teacher = fields.Boolean(string="Is a Teacher", default=True)
     qualification = fields.Text(string="Qualification")
     subject_ids = fields.Many2many('school.subject', string="Subjects")
-    contact_no = fields.Char(string="Contact Number")
-    email = fields.Char(string="Email")
     joining_date = fields.Date(string="Joining Date")
+
+
+
+

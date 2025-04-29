@@ -30,6 +30,7 @@
             </form>
         </field>
     </record>
+    
 
     <record id="action_school_class" model="ir.actions.act_window">
         <field name="name">Classes</field>

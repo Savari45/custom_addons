@@ -11,3 +11,4 @@ from . import library_issue
 from . import transport
 from . import fee
 from . import hostel
+from . import fee_type

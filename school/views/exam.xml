@@ -9,8 +9,7 @@
                 <field name="name"/>
                 <field name="class_id"/>
                 <field name="subject_id"/>
-                <field name="exam_date"/>
-                <field name="exam_time"/>
+                <field name="exam_datetime"/>
                 <field name="max_marks"/>
                 <field name="passing_marks"/>
             </list>
@@ -28,8 +27,7 @@
                         <field name="name"/>
                         <field name="class_id"/>
                         <field name="subject_id"/>
-                        <field name="exam_date"/>
-                        <field name="exam_time"/>
+                        <field name="exam_datetime"/>
                         <field name="max_marks"/>
                         <field name="passing_marks"/>
                     </group>
@@ -47,16 +45,15 @@
                 <field name="name"/>
                 <field name="class_id"/>
                 <field name="subject_id"/>
-                <field name="exam_date"/>
-                <field name="exam_time"/>
+
+                <field name="exam_datetime"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_kanban_record">
                             <strong><field name="name"/></strong>
                             <div><span>Class: </span><field name="class_id"/></div>
                             <div><span>Subject: </span><field name="subject_id"/></div>
-                            <div><span>Date: </span><field name="exam_date"/></div>
-                            <div><span>Time: </span><field name="exam_time"/></div>
+                            <div><span>Time: </span><field name="exam_datetime"/></div>
                             <div><span>Max: </span><field name="max_marks"/>, <span>Pass: </span><field name="passing_marks"/></div>
                         </div>
                     </t>
