@@ -1,0 +1,13 @@
+<odoo>
+    <record id="category_fiction" model="library.book.category">
+        <field name="name">Fiction</field>
+    </record>
+
+    <record id="category_nonfiction" model="library.book.category">
+        <field name="name">Non-Fiction</field>
+    </record>
+
+    <record id="category_science" model="library.book.category">
+        <field name="name">Science</field>
+    </record>
+</odoo>

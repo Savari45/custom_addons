@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Form View for SOP Violations -->
+    <record id="view_active_warning_form" model="ir.ui.view">
+        <field name="name">active.warning.form</field>
+        <field name="model">active.warning</field>
+        <field name="arch" type="xml">
+            <form string="Active Warning">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="warning"/>
+                            <field name="warning_date"/>
+                        </group>
+                        <group>
+                            <field name="warning_reason"/>
+                            <field name="potential_con"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Tree View for SOP Violations -->
+    <record id="view_active_warning_tree" model="ir.ui.view">
+        <field name="name">active.warning.tree</field>
+        <field name="model">active.warning</field>
+        <field name="arch" type="xml">
+            <list string="Active Warning">
+
+                <field name="employee_id"/>
+                <field name="warning"/>
+                <field name="warning_date"/>
+                <field name="warning_reason"/>
+                <field name="potential_con"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- Search View for SOP Violations -->
+    <record id="view_active_warning_search" model="ir.ui.view">
+        <field name="name">active.warning.search</field>
+        <field name="model">active.warning</field>
+        <field name="arch" type="xml">
+            <search string="Active Warning Search">
+                <field name="employee_id"/>
+                <field name="warning_date"/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for SOP Violations -->
+    <record id="action_active_warning" model="ir.actions.act_window">
+        <field name="name">Active Warning</field>
+        <field name="res_model">active.warning</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+
+
+</odoo>

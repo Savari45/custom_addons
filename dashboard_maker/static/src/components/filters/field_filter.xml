@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="DmFieldFilter">
+        <td>
+            <t t-out="props.fieldDef['string']"/>
+        </td>
+        <td>
+            <t t-set="value" t-value="state.node.value"/>
+            <t t-set="update" t-value="(value) => this.updateLeafValues(value)"/>
+            <t t-set="info" t-value="getValueEditorInfo(state.node)"/>
+            <t t-if="info.component">
+                <span class="form-control" style="width:100%;">
+                    <div t-attf-class="o_tree_editor_editor ">
+                        <t t-component="info.component" t-props="info.extractProps({ value, update })"/>
+                    </div>
+                </span>
+            </t>
+        </td>
+
+
+    </t>
+</templates>

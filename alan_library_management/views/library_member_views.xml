@@ -1,0 +1,144 @@
+<odoo>
+    <record id="view_library_member_kanban" model="ir.ui.view">
+        <field name="name">library.member.kanban</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="membership_type">
+                <field name="image"/>
+                <field name="membership_number"/>
+                <field name="partner_id"/>
+                <field name="current_loans"/>
+                <field name="active"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('library.member', 'image', record.id.raw_value)"
+                                     class="oe_avatar"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <field name="partner_id"/>
+                                </strong>
+                                <div>
+                                    <span>ID:</span>
+                                    <field name="membership_number"/>
+                                </div>
+                                <div>
+                                    <span>Loans:</span>
+                                    <field name="current_loans"/>
+                                </div>
+                                <div t-if="record.active.raw_value" class="text-success">Active</div>
+                                <div t-else="" class="text-danger">Inactive</div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_library_member_tree" model="ir.ui.view">
+        <field name="name">library.member.tree</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <list delete="1">
+                <field name="membership_number"/>
+                <field name="partner_id"/>
+                <field name="membership_type"/>
+                <field name="current_loans"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_library_member_form" model="ir.ui.view">
+        <field name="name">library.member.form</field>
+        <field name="model">library.member</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="open_renew_wizard" string="Renew Membership" type="object"
+                        class="oe_highlight" js_condition="record.membership_end.raw_value !== false"/>
+                    <field name="partner_id" invisible="1"/> <!-- Used for window title -->
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="membership_number" class="oe_edit_only"/>
+                        <h1>
+                            <field name="membership_number" readonly="1" string="Membership ID"
+                                   modifiers='{"invisible": [["id", "=", False]]}'/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="membership_type"/>
+                            <field name="membership_start"/>
+                            <field name="membership_end"/>
+                            <field name="max_loans"/>
+                            <field name="barcode" widget="barcode" string="Member Barcode"/>
+                        </group>
+                        <group>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="current_loans"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Address">
+                            <group>
+                                <field name="full_address"/>
+                                <!--                                <group>-->
+<!--                                    <field name="street"/>-->
+<!--                                    <field name="street2"/>-->
+<!--                                    <field name="city"/>-->
+<!--                                </group>-->
+<!--                                <group>-->
+<!--                                    <field name="state_id"/>-->
+<!--                                    <field name="country_id"/>-->
+<!--                                    <field name="zip"/>-->
+<!--                                </group>-->
+                            </group>
+                        </page>
+                        <page string="Transactions">
+                            <field name="id" invisible="1"/>
+                            <field name="transaction_ids">
+                                <list>
+                                    <field name="book_id"/>
+                                    <field name="borrow_date"/>
+                                    <field name="expected_return_date"/>
+                                    <field name="state"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <field name="book_id"/>
+                                        <field name="borrow_date"/>
+                                        <field name="expected_return_date"/>
+                                        <field name="actual_return_date"/>
+                                        <field name="state"/>
+                                        <field name="fine_amount"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_library_member" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new member for your library.
+            </p>
+        </field>
+    </record>
+</odoo>

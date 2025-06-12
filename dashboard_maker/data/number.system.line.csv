@@ -1,0 +1,11 @@
+"id","number_system_id:id","display_notation","no_of_digits"
+global_k,global_abbreviations,"K",3
+global_m,global_abbreviations,"M",6
+global_b,global_abbreviations,"B",9
+global_t,global_abbreviations,"T",12
+global_q,global_abbreviations,"Q",15
+global_qi,global_abbreviations,"Qi",18
+global_sx,global_abbreviations,"Sx",21
+global_sp,global_abbreviations,"Sp",24
+global_o,global_abbreviations,"O",27
+global_n,global_abbreviations,"N",30

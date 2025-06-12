@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_library_book_barcode" model="ir.sequence">
+        <field name="name">Library Book Barcode</field>
+        <field name="code">library.book.barcode</field>
+        <field name="prefix">BOOK-</field>
+        <field name="padding">6</field>
+    </record>
+
+    <record id="seq_library_member_barcode" model="ir.sequence">
+        <field name="name">Library Member Barcode</field>
+        <field name="code">library.member.barcode</field>
+        <field name="prefix">MEM-</field>
+        <field name="padding">6</field>
+    </record>
+</odoo>

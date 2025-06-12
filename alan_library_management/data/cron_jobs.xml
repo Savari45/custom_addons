@@ -1,0 +1,23 @@
+<odoo>
+    <record id="ir_cron_check_membership_expiry" model="ir.cron">
+        <field name="name">Check Membership Expiry</field>
+        <field name="model_id" ref="model_library_member"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_check_expiring_memberships()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+<!--        <field name="numbercall">-1</field>-->
+        <field name="active">True</field>
+    </record>
+
+    <record id="ir_cron_update_fines" model="ir.cron">
+        <field name="name">Update Library Fines</field>
+        <field name="model_id" ref="model_library_transaction"/>
+        <field name="state">code</field>
+        <field name="code">model.update_overdue_fines()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="active">True</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="DynamicDashboard" class="o_action">
+        <Layout display="{ controlPanel: {} }">
+            <t t-set-slot="control-panel-navigation-additional">
+                <t t-if="filter_models_data">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#filtersdiv">
+                        Filters <i class="fa fa-filter" aria-hidden="true"/>
+                    </button>
+                </t>
+                
+                <Dropdown menuClass="'btn btn-outline-secondary o-no-caret rounded-start-0'">
+                    <button
+                            class="d-print-none btn btn-outline-secondary o-dropdown-caret rounded-start-0"
+                            title="Date Filters"
+                    >
+                        <i class="fa fa-calendar" aria-hidden="true"/>
+                        <t t-set="is_custom" t-value="true"/>
+                        <t t-foreach="state.date_filters" t-as="item" t-key="item.id">
+                            <t t-if="item.isActive">
+                                <t t-out="item.name"/>
+                                <t t-set="is_custom" t-value="false"/>
+                            </t>
+                        </t>
+                        <t t-if="is_custom">
+                            Custom Date
+                        </t>
+                    </button>
+                    <t t-set-slot="content">
+                        <t t-foreach="state.date_filters" t-as="item" t-key="item.id">
+                            <CheckboxItem class="{ selected: item.isActive }" checked="item.isActive"
+                                          onSelected="() => this.onChangeDateFilter(item.id)">
+                                <span class="d-flex p-0 align-items-center justify-content-between">
+                                    <span t-out="item.name"/>
+                                </span>
+                            </CheckboxItem>
+                        </t>
+                        <h5>Custom Date</h5>
+                        <DateTimeInput
+                                value="datefilter_from"
+                                type="'datetime'"
+                                placeholder.translate="Date from..."
+                                onChange="(datetime) => this.onChangeFromDate(datetime)"
+                        />
+                        <DateTimeInput
+                                value="datefilter_to"
+                                type="'datetime'"
+                                placeholder.translate="Date to..."
+                                onChange="(datetime) => this.onChangeToDate(datetime)"
+                        />
+                        <CheckboxItem class="{ selected: false }" checked="false"
+                                      onSelected="() => this.onCustomDateFilterApply()">
+                            <button onclick="() => this.onCustomDateFilterApply()">Apply</button>
+                        </CheckboxItem>
+                    </t>
+                </Dropdown>
+
+                <button t-if="!uiService.isSmall" type="button" class="btn btn-secondary" t-on-click="getDashboardData">
+                    <i class="fa fa-refresh" aria-hidden="true"/>
+                </button>
+
+                <t t-if="is_admin">
+                    <t t-if="uiService.isSmall">
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#dashboardbuttons">
+                            <i class="fa fa-bars" aria-hidden="true"/>
+                        </button>
+                        <div id="dashboardbuttons" class="collapse dashboardbuttons" style="margin: 5px;">
+                            <button type="button" class="btn btn-secondary" t-on-click="getDashboardData" data-bs-toggle="collapse" data-bs-target=".dashboardbuttons" aria-expanded="false">
+                                <i class="fa fa-refresh" aria-hidden="true"/>
+                            </button>
+                            <button type="button" class="btn btn-secondary" t-on-click="openSettings">
+                                <i class="fa fa-cog" aria-hidden="true"/>
+                            </button>
+
+                            <button type="button" class="btn btn-secondary" t-on-click="onClickAddItem">
+                                <i class="fa fa-plus-circle" aria-hidden="true"/>
+                            </button>
+
+                            <button type="button" class="dash_edit_btn btn btn-secondary" t-on-click="turnEditMode">
+                                <i class="fa fa-edit"/>
+                            </button>
+
+                            <button type="button" class="d-none dash_discard_btn btn btn-secondary" t-on-click="discardLayout" data-bs-toggle="collapse" data-bs-target=".dashboardbuttons" aria-expanded="false">
+                                <i class="fa fa-times fa-fw"/>
+                            </button>
+
+                            <button type="button" class="d-none dash_save_btn btn btn-secondary" t-on-click="saveLayout" data-bs-toggle="collapse" data-bs-target=".dashboardbuttons" aria-expanded="false">
+                                <i class="fa fa-cloud-upload fa-fw"/>
+                            </button>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <button type="button" class="btn btn-secondary" t-on-click="openSettings">
+                            <i class="fa fa-cog" aria-hidden="true"/>
+                        </button>
+
+                        <button type="button" class="btn btn-secondary" t-on-click="onClickAddItem">
+                            <i class="fa fa-plus-circle" aria-hidden="true"/>
+                        </button>
+
+                        <button type="button" class="dash_edit_btn btn btn-secondary" t-on-click="turnEditMode">
+                            <i class="fa fa-edit"/>
+                        </button>
+
+                        <button type="button" class="d-none dash_discard_btn btn btn-secondary" t-on-click="discardLayout">
+                            <i class="fa fa-times fa-fw"/>
+                        </button>
+
+                        <button type="button" class="d-none dash_save_btn btn btn-secondary" t-on-click="saveLayout">
+                            <i class="fa fa-cloud-upload fa-fw"/>
+                        </button>
+                    </t>
+
+                </t>
+
+            </t>
+
+            <div style="height:85vh;">
+                <t t-if="filter_models_data">
+                    <div id="filtersdiv" class="collapse filtersdiv" style="margin: 5px;">
+                        <div class="row">
+                            <t t-foreach="filter_models_data" t-as="filter" t-key="filter.id">
+                                <div class="col-md-4" style="margin-bottom:20px;">
+                                    <ModelFilters filter_data="filter" onUpdate="(domain, model) => this.onUpdateFilter(domain, model)"/>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="row" style="margin-top:20px; margin-bottom:0px;">
+                            <div class="col-md-5">
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".filtersdiv" aria-expanded="false" t-on-click="onApplyFilter">Apply</button>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </t>
+                <div class="grid-stack" style="background-color:#EFF0F3;">
+                    <t t-if="chart_ids.length!=0">
+                        <t t-foreach="grid_data" t-as="item" t-key="item.id">
+                            <div class="grid-stack-item" t-att-gs-x="item.x" t-att-gs-w="item.w"
+                                 t-att-gs-h="item.h" t-att-gs-id="item.id" t-att-itemtype="item.type">
+
+                                <div class="grid-stack-item-content" style="background-color:#fff;overflow: hidden;display: flex;flex-direction: column;border-radius: 8px;">
+                                    <t t-if="items_data[item.id]">
+                                        <t t-if="items_data[item.id].type=='card'">
+                                            <CardKpi data="items_data[item.id]" item_id="item.id" is_admin="is_admin"/>
+                                        </t>
+                                        <t t-elif="items_data[item.id].type=='list'">
+                                            <DashboardListItem item_id="item.id" data="items_data[item.id]" is_admin="is_admin" is_preview="false"/>
+                                        </t>
+                                        <t t-else="">
+                                            <DashboardMakerChart item_id="item.id" data="items_data[item.id]" chart_type="item.type" is_admin="is_admin"/>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <div>loading....</div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <div style="height: 100%; width: 100%;">
+                            <div class="o_view_nocontent">
+                                <div class="o_nocontent_help">
+                                    <img class="img-fluid" src="/dashboard_maker/static/src/img/empty_dashboard.png" width="250" height="250" title="Icon made by Andrean Prabowo from www.flaticon.com"/>
+                                    <p>
+                                        No Data Found!!
+                                    </p>
+                                    <p>
+                                        Create Your First Chart on This Dashboard
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+
+            </div>
+        </Layout>
+    </t>
+</templates>

@@ -1,0 +1,191 @@
+<odoo>
+    <data>
+
+        <record id="view_order_tree_custom_shopify" model="ir.ui.view">
+            <field name="name">sale.order.tree.custom.shopify</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="attributes">
+                    <attribute name="default_order">origin desc</attribute>
+                </xpath>
+            </field>
+        </record>
+        <odoo>
+            <record id="view_move_form_inherit_shopify_refund_button" model="ir.ui.view">
+                <field name="name">account.move.form.inherit.shopify.refund.button</field>
+                <field name="model">account.move</field>
+                <field name="inherit_id" ref="account.view_move_form"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//header" position="inside">
+                        <button name="push_refund_to_shopify"
+                                type="object"
+                                string="Refund in Shopify"
+                                class="btn-primary"/>
+                    </xpath>
+                </field>
+            </record>
+        </odoo>
+
+
+        <record id="view_move_form_inherit_shopify" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.shopify</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="push_payment_to_shopify"
+                            string="Sync Shopify Payment"
+                            type="object"
+                            class="btn-primary"/>
+                    <!--                    <button class="oe_highlight" type="object" name="button_sync_shopify_payment" string="Status"/>-->
+
+                </xpath>
+                <xpath expr="//field[@name='invoice_date']" position="after">
+                    <field name="shopify_order_id" readonly="1"/>
+                    <field name="delivery_partner" readonly="1"/>
+                    <field name="tracking_number" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!-- Shopify Order Import Form View -->
+        <record id="view_shopify_order_import_form" model="ir.ui.view">
+            <field name="name">shopify.order.import.form</field>
+            <field name="model">shopify.order.import</field>
+            <field name="arch" type="xml">
+                <form string="Shopify Order Import">
+                    <header>
+                        <button name="import_shopify_orders" type="object" string="Import Orders"
+                                class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="customer_name"/>
+                            <field name="shopify_order_id"/>
+                            <field name="payment_status"/>
+                            <field name="fulfillment_status"/>
+                            <field name="tracking"/>
+                            <field name="courier"/>
+                            <field name="total_amount"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Shopify Order Import Tree View -->
+        <record id="view_shopify_order_import_tree" model="ir.ui.view">
+            <field name="name">shopify.order.import.tree</field>
+            <field name="model">shopify.order.import</field>
+            <field name="arch" type="xml">
+                <tree string="Shopify Orders">
+                    <field name="name"/>
+                    <field name="customer_name"/>
+                    <field name="payment_status"/>
+                    <field name="fulfillment_status"/>
+                    <field name="last_import_date"/>
+                    <field name="tracking"/>
+                    <field name="courier"/>
+
+                    <field name="shopify_order_id"/>
+                    <field name="total_amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+
+        <record id="action_shopify_order_import" model="ir.actions.act_window">
+            <field name="name">Shopify Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">shopify.order.import</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- Sale order integration -->
+
+        <!--        <record id="view_shopify_sale_import_form" model="ir.ui.view">-->
+        <!--            <field name="name">shopify.sale.import.form</field>-->
+        <!--            <field name="model">shopify.sale.import</field>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <form string="Shopify Sale Import">-->
+        <!--                    <header>-->
+        <!--                        <button name="import_shopify_sale_orders" type="object" string="Import Orders"-->
+        <!--                                class="btn-primary"/>-->
+        <!--                    </header>-->
+        <!--                    <sheet>-->
+        <!--                        <group>-->
+        <!--                            <p>Click the button above to import Shopify orders into Odoo Sale Orders.</p>-->
+        <!--                        </group>-->
+        <!--                    </sheet>-->
+        <!--                </form>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+        <!--        <record id="action_shopify_sale_import" model="ir.actions.act_window">-->
+        <!--            <field name="name">Import Shopify Orders</field>-->
+        <!--            <field name="res_model">shopify.sale.import</field>-->
+        <!--            <field name="view_mode">form</field>-->
+        <!--            <field name="target">new</field>-->
+        <!--        </record>-->
+
+
+        <menuitem id="menu_shopify_order_import_root" name="Shopify Orders" sequence="10"/>
+        <menuitem id="menu_shopify_order_import" action="action_shopify_order_import" name="Orders"
+                  parent="menu_shopify_order_import_root" sequence="30"/>
+        <!--        <menuitem id="menu_shopify_sale_import" name="Import Orders" parent="menu_shopify_order_import_root"-->
+        <!--                  action="action_shopify_sale_import" sequence="40"/>-->
+
+        <!--        <record id="view_product_form_inherit_shopify_inventory" model="ir.ui.view">-->
+        <!--            <field name="name">product.template.form.inherit.shopify</field>-->
+        <!--            <field name="model">product.template</field> &lt;!&ndash; Correct model &ndash;&gt;-->
+        <!--            <field name="inherit_id" ref="product.product_template_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//field[@name='detailed_type']" position="after">-->
+        <!--                    <group>-->
+        <!--                        <field name="shopify_inventory_item_id"/>-->
+        <!--                    </group>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+        <!--        &lt;!&ndash; Action Window for Shopify Orders &ndash;&gt;-->
+        <!--        <act_window id="action_shopify_order_import"-->
+        <!--                    name="Shopify Orders"-->
+        <!--                    res_model="shopify.order.import"-->
+        <!--                    view_mode="tree,form"-->
+        <!--                    menu_id="menu_shopify_order_import"/>-->
+
+        <!--        <record id="view_product_form_inherit_shopify" model="ir.ui.view">-->
+        <!--            <field name="name">product.template.form.inherit.shopify</field>-->
+        <!--            <field name="model">product.template</field>-->
+        <!--            <field name="inherit_id" ref="product.product_template_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                &lt;!&ndash; Add the shopify_inventory_item_id field after the detailed_type field &ndash;&gt;-->
+        <!--                <xpath expr="//field[@name='detailed_type']" position="after">-->
+        <!--                    <group>-->
+        <!--                        <field name="shopify_inventory_item_id"/>-->
+        <!--                    </group>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+        <!--        <record id="view_product_form_inherit_shopify" model="ir.ui.view">-->
+        <!--            <field name="name">product.product.form.inherit.shopify</field>-->
+        <!--            <field name="model">product.product</field>-->
+        <!--            <field name="inherit_id" ref="product.product_normal_form_view"/>-->
+        <!--            <field name="arch" type="xml">-->
+        <!--                <xpath expr="//field[@name='default_code']" position="after">-->
+        <!--                    <field name="shopify_inventory_item_id"/>-->
+        <!--                </xpath>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+    </data>
+</odoo>

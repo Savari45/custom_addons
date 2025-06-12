@@ -1,0 +1,9 @@
+.full-address-block {
+    white-space: pre-line;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 5px;
+    background-color: #fff !important; /* remove grey */
+    color: #000;
+}
+

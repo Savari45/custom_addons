@@ -1,0 +1,8 @@
+/* For better kanban card styling */
+.oe_kanban_details {
+    padding: 8px;
+}
+.o_kanban_image {
+    float: left;
+    margin-right: 8px;
+}

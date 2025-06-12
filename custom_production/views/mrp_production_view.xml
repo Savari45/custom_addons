@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_mrp_production_form_inherit" model="ir.ui.view">
+        <field name="name">mrp.production.form.inherit.two.step</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_initial_produce" type="object" string="Initial Produce" class="btn-primary"
+                        invisible="is_initial_produced == True"/>
+                <button name="action_validate_components" type="object" string="Validate Components"
+                        class="btn-secondary"
+                        invisible="is_initial_produced == False or is_validated == True"/>
+                <button name="action_reproduce" type="object" string="Reproduce (Final)" class="btn-success"
+                        invisible="is_validated == False"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -12,6 +12,8 @@
                     <field name="appointment_date"/>
                     <field name="urgency"/>
                     <field name="treatments"/>
+                                        <field name="patient_categ"/>
+
 
                     <!-- Filter -->
                     <filter string="Today" name="today" domain="[('appointment_date', '=', context_today())]"/>
@@ -28,6 +30,8 @@
                         <filter name="group_by_state" string="Status" domain="[]" context="{'group_by': 'state'}"/>
                         <filter name="group_by_treatments" string="Treatments" domain="[]"
                                 context="{'group_by': 'treatments'}"/>
+                         <filter name="group_by_patient_categories" string="Patient Category" domain="[]"
+                                context="{'group_by': 'patient_categ'}"/>
 
                     </group>
                 </search>

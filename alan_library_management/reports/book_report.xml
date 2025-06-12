@@ -1,0 +1,104 @@
+<odoo>
+    <template id="report_library_book">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <div class="text-center mb-3">
+                            <h2 class="report-title">Book Report</h2>
+                            <h3 style="color: #3498db;" t-field="doc.name"/>
+                        </div>
+
+                        <!-- Book Info -->
+                        <div class="book-info-box">
+                            <h4 class="section-title">Book Information</h4>
+                            <table>
+                                <tr>
+                                    <td class="info-label">ISBN:</td>
+                                    <td class="info-value"><span t-esc="doc.isbn"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">Authors:</td>
+                                    <td>
+                                        <t t-if="doc.author_ids">
+                                            <t t-set="authors" t-value="doc.author_ids.split(',')"/>
+                                            <t t-foreach="authors" t-as="author">
+                                                <span class="author-tag" t-esc="author"/>
+                                            </t>
+                                        </t>
+                                        <t t-else="true"><span>No authors available</span></t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">Available Copies:</td>
+                                    <td class="info-value">
+                                        <t t-if="doc.quantity">
+                                            <span t-esc="doc.available_quantity" class="text-success font-weight-bold"/> /
+                                            <span t-esc="doc.quantity"/>
+                                        </t>
+                                        <t t-else="true">
+                                            <span class="overdue">Not available</span>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- Loan Data -->
+                        <div class="loan-section">
+                            <h4 class="section-title">Current Loans</h4>
+                            <table class="loan-table">
+                                <thead>
+                                    <tr>
+                                        <th>Member</th>
+                                        <th>Borrow Date</th>
+                                        <th>Due Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="loan_data" t-value="doc.get_loan_data()"/>
+                                    <t t-foreach="loan_data" t-as="loan">
+                                        <tr>
+                                            <td><span t-esc="loan['member']"/></td>
+                                            <td><span t-esc="loan['borrow_date']"/></td>
+                                            <td>
+                                                <span t-esc="loan['due_date']"
+                                                      t-att-class="loan['is_overdue'] and 'overdue' or ''"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="not loan_data">
+                                        <tr>
+                                            <td colspan="3" class="text-center text-muted">No current loans</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="footer-text">
+                            Generated on <span t-esc="generated_on"/>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_library_book" model="ir.actions.report">
+        <field name="name">Book Report</field>
+        <field name="model">library.book</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">alan_library_management.report_library_book</field>
+        <field name="report_file">alan_library_management.report_library_book</field>
+        <field name="print_report_name">'Book Report - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_library_book"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+</odoo>
+
+
+

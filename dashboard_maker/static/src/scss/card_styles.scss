@@ -1,0 +1,143 @@
+.dm_card{
+  height: 100%;
+      width: 100%;
+      padding: 15px;
+  border-radius: 8px;
+}
+
+.dm_card_options {
+            display: none;
+        }
+
+        .dm_card:hover .dm_card_options {
+            display: inline;
+        }
+
+
+.dm_scorecard_format_1 {
+      text-align: center;
+    }
+    .dm_scorecard_format_1 .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .dm_scorecard_format_1 .value {
+      font-size: 24px;
+    }
+
+
+.dm_scorecard_format_2 {
+      text-align: left;
+    }
+    .dm_scorecard_format_2 .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .dm_scorecard_format_2 .value {
+      font-size: 24px;
+    }
+
+        .dm_scorecard_format_3 {
+      text-align: right;
+    }
+    .dm_scorecard_format_3 .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .dm_scorecard_format_3 .value {
+      font-size: 24px;
+    }
+
+        .dm_scorecard_format_4 {
+      text-align: center;
+    }
+    .dm_scorecard_format_4 .title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    .dm_scorecard_format_4 .value {
+      font-size: 30px;
+    }
+
+
+        .dm_scorecard_format_5 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dm_scorecard_format_5 .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .dm_scorecard_format_5 .value {
+      font-size: 28px;
+    }
+
+        .dm_scorecard_format_6 {
+      text-align: center;
+    }
+    .dm_scorecard_format_6 .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px; /* updated margin so label sits at the bottom */
+    }
+    .dm_scorecard_format_6 .value {
+      font-size: 24px;
+    }
+
+
+        .dm_scorecard_format_7 {
+      text-align: left;
+    }
+    .dm_scorecard_format_7 .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .dm_scorecard_format_7 .value {
+      font-size: 24px;
+    }
+
+      .dm_scorecard_format_8 {
+      text-align: right;
+    }
+    .dm_scorecard_format_8 .title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .dm_scorecard_format_8 .value {
+      font-size: 24px;
+    }
+
+        .dm_scorecard_format_9 {
+      text-align: center;
+    }
+    .dm_scorecard_format_9 .title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .dm_scorecard_format_9 .value {
+      font-size: 30px;
+    }
+
+    .dm_scorecard_format_10 .title {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+    .dm_scorecard_format_10 .value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
+      color: #333;
+    }

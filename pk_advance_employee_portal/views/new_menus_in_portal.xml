@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+<template id="inherit_portal_active_warning_my_home" inherit_id="portal.portal_my_home"
+              name="Active Warning Details" priority="100" customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+           <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/hr_holidays/static/description/icon.png'"/>
+                <t t-set="title">Time Off</t>
+                <t t-set="url" t-value="'/employee/leaves'"/>
+                <t t-set="placeholder_count" t-value="'book_checkout_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/planning/static/description/icon.png'"/>
+                <t t-set="title">Weekly Schedule</t>
+                <t t-set="url" t-value="'/weekly/schedule'"/>
+                <t t-set="placeholder_count" t-value="'weekly_checkout_count'"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                    <t t-set="icon" t-value="'/mail/static/description/icon.png'"/>
+                    <t t-set="title">Announcements</t>
+                    <t t-set="url" t-value="'/my/announcement'"/>
+                    <t t-set="placeholder_count" t-value="'portal_announcement'"/>
+                </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/pk_advance_employee_portal/static/src/img/warning.png'"/>
+                <t t-set="title">Active Warnings</t>
+                <t t-set="url" t-value="'/active/warnings'"/>
+                <t t-set="placeholder_count" t-value="'active_warning_checkout_count'"/>
+            </t>
+
+
+            <t t-call="portal.portal_docs_entry">
+               <t t-set="icon" t-value="'/pk_advance_employee_portal/static/src/img/violation.png'"/>
+                <t t-set="title">SOP Violations</t>
+                <t t-set="url" t-value="'/sop/violations'"/>
+                <t t-set="placeholder_count" t-value="'sop_checkout_count'"/>
+            </t>
+
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/project/static/description/icon.png'"/>
+                <t t-set="title">My Tasks</t>
+                <t t-set="url" t-value="'/tasks/my'"/>
+                <t t-set="placeholder_count" t-value="'project_checkout_count'"/>
+            </t>
+
+        </xpath>
+    </template>
+</odoo>

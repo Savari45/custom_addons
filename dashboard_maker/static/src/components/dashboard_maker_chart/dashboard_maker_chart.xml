@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="DashboardMakerChart">
+        <ItemOptions title="props.data.title" item_id="props.item_id" type="props.chart_type" is_admin="props.is_admin"/>
+        <t t-if="props.data.is_error">
+            <div style="border: 1px solid #94a3b8">
+                <h5><t t-out="props.data.error_log"/></h5>
+            </div>
+        </t>
+        <t t-else="">
+            <div t-attf-id="chart_{{props.item_id}}" style="width:100%;height:95%;"/>
+        </t>
+    </t>
+</templates>

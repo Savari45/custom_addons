@@ -1,0 +1,4 @@
+<odoo>
+  <menuitem id="menu_sales_report_root" name="Sales Reports" parent="sale.sale_menu_root" sequence="100"/>
+  <menuitem id="menu_invoice_report" name="Invoice Report" action="action_invoice_report_wizard" parent="menu_sales_report_root"/>
+</odoo>

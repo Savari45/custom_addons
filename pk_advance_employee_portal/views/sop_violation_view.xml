@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+     <!-- Form View for SOP Violations -->
+    <record id="view_sop_violation_form" model="ir.ui.view">
+        <field name="name">sop.violation.form</field>
+        <field name="model">sop.violation</field>
+        <field name="arch" type="xml">
+            <form string="SOP Violation">
+                <sheet>
+                    <group>
+                        <group>
+                        <field name="employee_id"/>
+                        <field name="violation_type"/>
+                        <field name="violation_reason"/>
+                        </group><group>
+                        <field name="date_violation"/>
+                        <field name="fine_amount"/>
+                        <field name="state"/>
+                    </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Tree View for SOP Violations -->
+    <record id="view_sop_violation_tree" model="ir.ui.view">
+        <field name="name">sop.violation.tree</field>
+        <field name="model">sop.violation</field>
+        <field name="arch" type="xml">
+            <list string="SOP Violations">
+                <field name="employee_id"/>
+                <field name="violation_type"/>
+                <field name="date_violation"/>
+                <field name="fine_amount"/>
+                <field name="violation_reason"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+
+
+    <!-- Search View for SOP Violations -->
+    <record id="view_sop_violation_search" model="ir.ui.view">
+        <field name="name">sop.violation.search</field>
+        <field name="model">sop.violation</field>
+        <field name="arch" type="xml">
+            <search string="SOP Violation Search">
+                <field name="employee_id"/>
+                <field name="violation_type"/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action for SOP Violations -->
+    <record id="action_sop_violation" model="ir.actions.act_window">
+        <field name="name">SOP Violations</field>
+        <field name="res_model">sop.violation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Main Menu Item -->
+    <menuitem id="menu_sop_violation_root"
+              name="Offenses"
+              action="action_sop_violation" />
+
+    <!-- Sub Menu Item -->
+    <menuitem id="menu_hr_sop_violation"
+              name=" SOP Violations"
+              parent="menu_sop_violation_root"
+              action="action_sop_violation" />
+
+    <!-- warning menu -->
+    <menuitem id="menu_active_warning_root"
+              name="Active Warning"
+              parent="menu_sop_violation_root"
+              action="action_active_warning"/>
+
+
+
+</odoo>

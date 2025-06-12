@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="group_library_user" model="res.groups">
+            <field name="name">Library User</field>
+            <field name="category_id" ref="base.module_category_services_library"/>
+        </record>
+
+        <record id="group_library_manager" model="res.groups">
+            <field name="name">Library Manager</field>
+            <field name="category_id" ref="base.module_category_services_library"/>
+            <field name="implied_ids" eval="[(4, ref('group_library_user'))]"/>
+        </record>
+
+        <record id="model_library_book" model="ir.model">
+            <field name="name">Library Book</field>
+            <field name="model">library.book</field>
+        </record>
+
+        <record id="model_library_member" model="ir.model">
+            <field name="name">Library Member</field>
+            <field name="model">library.member</field>
+        </record>
+
+        <record id="model_library_transaction" model="ir.model">
+            <field name="name">Library Transaction</field>
+            <field name="model">library.transaction</field>
+        </record>
+
+        <record id="model_library_book_category" model="ir.model">
+            <field name="name">Book Category</field>
+            <field name="model">library.book.category</field>
+        </record>
+
+        <record id="model_library_member_renew_wizard" model="ir.model">
+            <field name="name">Membership Renewal Wizard</field>
+            <field name="model">library.member.renew.wizard</field>
+            <field name="info">Wizard for renewing library memberships</field>
+        </record>
+    </data>
+</odoo>

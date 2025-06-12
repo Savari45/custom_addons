@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="color_palette_view_list" model="ir.ui.view">
+            <field name="name">color_palette_view_list</field>
+            <field name="model">color.palette</field>
+            <field name="arch" type="xml">
+                <list string="color_palette_list">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="color_palette_view_form" model="ir.ui.view">
+            <field name="name">color_palette_view_form</field>
+            <field name="model">color.palette</field>
+            <field name="arch" type="xml">
+                <form string="color_palette_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <notebook>
+                            <page string="Colors">
+                                <field name="colors_ids">
+                                    <list editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="name" widget="color"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="color_palette_action" model="ir.actions.act_window">
+            <field name="name">Color Palette</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">color.palette</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="color_palette_action_menu" parent="dashboard_maker_config_menu" action="color_palette_action"/>
+
+    </data>
+</odoo>

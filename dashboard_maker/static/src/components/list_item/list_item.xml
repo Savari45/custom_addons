@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="DashboardListItem">
+        <t t-if="props.data.is_error">
+            <div class="h-10 float-start" style="margin: 5px;" t-if="!props.is_preview">
+                <ItemOptions title="props.data.title" item_id="props.item_id" type="'list'" is_admin="props.is_admin"/>
+            </div>
+            <div>
+                <h5><t t-out="props.data.error_log"/></h5>
+            </div>
+        </t>
+        <t t-else="">
+            <div t-if="!props.is_preview">
+                <div class="h-10 float-start" style="margin: 5px;">
+                    <ItemOptions title="props.data.title" item_id="props.item_id" type="'list'" is_admin="props.is_admin"/>
+                </div>
+                <div class="compact-pagination float-end">
+                    <button t-att-class="'dm_list_navigation ' + (state.offset==0 ? 'dm_nav_disabled' : '')" t-on-click="getPreviousRecords"><i class="fa fa-angle-double-left"/></button>
+                    <span class="page-count"><t t-out="state.offset+1"/> - <t t-out="state.offset+state.limit"/></span>
+                    <button t-att-class="'dm_list_navigation ' + (state.is_last ? 'dm_nav_disabled' : '')" t-on-click="getNextRecords"><i class="fa fa-angle-double-right"/></button>
+                </div>
+            </div>
+            <t t-set="fields_data" t-value="props.data.fields_data"/>
+            <div class="table-container" style="margin: 10px; overflow: scroll;">
+                <table class="table table-striped table-hover table-sm table-responsive ">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <t t-foreach="fields_data" t-as="field" t-key="field.name">
+                                <th scope="col">
+                                    <t t-out="field.description"/>
+                                </th>
+                            </t>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="show_records" t-value="props.data.show_records"/>
+                        <t t-set="is_grouped" t-value="props.data.is_grouped"/>
+                        <tr t-foreach="state.data" t-as="row" t-key="row_index">
+                            <t t-foreach="fields_data" t-as="field" t-key="field_index">
+                                <t t-if="show_records">
+                                    <t t-if="!is_grouped">
+                                        <td t-on-click="() => this.openSingleRecord(row.id)">
+                                            <t t-if="field.type=='binary'">
+                                                <img t-attf-src="{{row[field.name]}}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-out="row[field.name]"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td t-on-click="() => this.openGroupRecords(row.__domain)"><t t-out="row[field.name]"/></td>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                     <t t-if="!is_grouped">
+                                        <td>
+                                            <t t-if="field.type=='binary'">
+                                                <img t-attf-src="{{row[field.name]}}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-out="row[field.name]"/>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <t t-else="">
+                                        <td><t t-out="row[field.name]"/></td>
+                                    </t>
+                                </t>
+                            </t>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </t>
+</templates>

@@ -1,0 +1,127 @@
+<odoo>
+    <template id="report_library_member">
+        <t t-call="web.html_container">
+            <link rel="stylesheet" href="/alan_library_management/static/src/css/member_report.css"/>
+            <style>
+                /* A4-sized report (210mm x 297mm) */
+                @page {
+                size: A4;
+                margin: 15mm;
+                }
+
+
+                /* Print-specific adjustments */
+                @media print {
+                body {
+                background: white !important;
+                width: 100% !important;
+                }
+                .member-report-container {
+                width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                }
+                }
+            </style>
+
+            <t t-call="web.external_layout">
+                <div class="member-report-container">
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="member-header">
+                            <img class="member-logo"
+                                 t-att-src="'/alan_library_management/static/src/img/library_logo.png'"
+                                 t-att-alt="'Library Logo'"/>
+                            <h1 class="member-title">Library Membership Report</h1>
+                            <div>Member ID:
+                                <t t-esc="doc.membership_number"/>
+                            </div>
+                        </div>
+
+                        <div class="member-content">
+                            <div class="member-image-container">
+                                <t t-if="doc.image or doc.partner_id.image_1920">
+                                    <img class="member-image"
+                                         t-att-src="'data:image/png;base64,%s' % (doc.image or doc.partner_id.image_1920)"
+                                         t-att-alt="doc.name"/>
+                                </t>
+                                <t t-else="">
+                                    <div class="member-image-placeholder">
+                                        No Photo Available
+                                    </div>
+                                </t>
+                            </div>
+
+                            <div class="member-details">
+                                <table class="member-table">
+                                    <tr>
+                                        <th>Name</th>
+                                        <td>
+                                            <t t-esc="doc.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>
+                                            <t t-esc="doc.email or 'Not provided'"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone</th>
+                                        <td>
+                                            <t t-esc="doc.phone or 'Not provided'"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Address</th>
+                                        <td>
+                                            <t t-esc="doc.full_address or 'Not provided'"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Membership</th>
+                                        <td>
+                                            <t t-esc="doc.membership_type or 'Not specified'"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Valid Period</th>
+                                        <td>
+                                            <t t-esc="doc.membership_start or 'Not specified'"/>
+                                            -
+                                            <t t-esc="doc.membership_end or 'Not specified'"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="qr-section">
+                            <h3>Member QR Code</h3>
+                            <img class="qr-image"
+                                 t-att-src="'data:image/png;base64,%s' % doc.generate_qr_code()"
+                                 t-att-alt="'QR Code for ' + doc.name"/>
+                        </div>
+
+<!--                        <div class="report-footer">-->
+<!--                            Generated on:-->
+<!--&lt;!&ndash;                            <t t-esc="datetime.now().strftime('%Y-%m-%d %H:%M')"/>&ndash;&gt;-->
+<!--                                                        <t t-esc="dt"/>-->
+<!--                        </div>-->
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_library_member" model="ir.actions.report">
+        <field name="name">Member Report</field>
+        <field name="model">library.member</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">alan_library_management.report_library_member</field>
+        <field name="report_file">alan_library_management.report_library_member</field>
+        <field name="print_report_name">'Member Report - %s' % (object.name)</field>
+        <field name="binding_model_id" ref="model_library_member"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+</odoo>

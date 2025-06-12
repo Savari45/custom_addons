@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--           # employee weekly/schedule list view template                  -->
+
+    <template id="sop_violation_list_view_temp_id" name="SOP Violation">
+        <t t-if="checkouts" t-call="portal.portal_table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>#</th>
+                    <th>#</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="checkouts" t-as="doc">
+                    <td>
+                        <span t-field="user.name"/>
+                    </td>
+                    <td>
+                        <span t-field="doc.violation_type"/>
+                    </td>
+                    <td>
+                        <span t-field="doc.violation_type"/>
+                    </td>
+                    <td>
+                        <span t-field="doc.violation_type"/>
+                    </td>
+                </tr>
+            </tbody>
+        </t>
+        <t t-else="">
+            <div class="alert alert-warning" role="alert">
+                There are no Record Found.
+            </div>
+        </t>
+    </template>
+
+    <!--                     sop list view template            -->
+
+    <template id="sop_violation_form_view_temp_id" name="SOP Violation Form View">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <h3>SOP Violation Records</h3>
+                <t t-if="checkouts">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Violation Type</th>
+                                <th>Date of Violation</th>
+                                <th>Violation Reason</th>
+                                <th>Fine Amount</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="checkouts" t-as="doc">
+                                <td>
+                                    <span t-field="doc.employee_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.violation_type"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.date_violation"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.violation_reason"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.fine_amount"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.state"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <t t-else="">
+                    <div class="alert alert-warning" role="alert">
+                        No Violation found.
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

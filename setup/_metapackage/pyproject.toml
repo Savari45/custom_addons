@@ -1,0 +1,27 @@
+[project]
+name = "odoo-addons-oca-field-service"
+version = "18.0.20250518.1"
+dependencies = [
+    "odoo-addon-base_territory==18.0.*",
+    "odoo-addon-fieldservice==18.0.*",
+    "odoo-addon-fieldservice_account==18.0.*",
+    "odoo-addon-fieldservice_activity==18.0.*",
+    "odoo-addon-fieldservice_calendar==18.0.*",
+    "odoo-addon-fieldservice_crm==18.0.*",
+    "odoo-addon-fieldservice_equipment_stock==18.0.*",
+    "odoo-addon-fieldservice_project==18.0.*",
+    "odoo-addon-fieldservice_recurring==18.0.*",
+    "odoo-addon-fieldservice_route==18.0.*",
+    "odoo-addon-fieldservice_sale==18.0.*",
+    "odoo-addon-fieldservice_sale_recurring==18.0.*",
+    "odoo-addon-fieldservice_sale_stock==18.0.*",
+    "odoo-addon-fieldservice_size==18.0.*",
+    "odoo-addon-fieldservice_stage_server_action==18.0.*",
+    "odoo-addon-fieldservice_stock==18.0.*",
+    "odoo-addon-fieldservice_vehicle==18.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 18.0",
+]

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <menuitem id="dashboard_maker_main_menu" name="Dashboards Maker"/>
+        <menuitem id="dashboard_maker_config_menu" name="Configurations" parent="dashboard_maker_main_menu" sequence="-1" groups="dashboard_maker.group_dashboard_maker_admin"/>
+    </data>
+</odoo>

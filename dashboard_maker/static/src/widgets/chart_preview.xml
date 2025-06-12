@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+     <t t-name="dashboard_maker.DashboardMakerChartPreview">
+         <t t-if="state.json_value['is_error']">
+             <div style="border:1px solid black; height: 300px; overflow: scroll;pointer-events: none;">
+                 <t t-out="state.json_value['error_log']"/>
+             </div>
+         </t>
+
+         <t t-elif="state.json_value['type']=='card'">
+            <CardKpi data="state.json_value"/>
+        </t>
+        <t t-elif="state.json_value['type']=='list'">
+            <div style="border:1px solid black; height: 300px; overflow: scroll;pointer-events: none;">
+                <DashboardListItem item_id="'new_list'" data="state.json_value" is_preview="true"/>
+             </div>
+        </t>
+        <t t-else="">
+            <div style="border:1px solid black; height: 300px; overflow: scroll;pointer-events: none;">
+                <DashboardMakerChart item_id="'new_chart'" data="state.json_value" chart_type="state.json_value['type']"/>
+             </div>
+        </t>
+
+    </t>
+
+</templates>

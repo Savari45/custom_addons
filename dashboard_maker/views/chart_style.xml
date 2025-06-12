@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="chart_style_view_form" model="ir.ui.view">
+            <field name="name">chart_style_view_form</field>
+            <field name="model">chart.styles</field>
+            <field name="arch" type="xml">
+                <form string="chart_style_form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="hide_title"/>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

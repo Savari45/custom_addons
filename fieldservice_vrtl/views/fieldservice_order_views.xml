@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_fieldservice_order_form" model="ir.ui.view">
+            <field name="name">fieldservice.order.form</field>
+            <field name="model">fieldservice.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                        <button name="%(action_change_company_wizard)d" string="Change Company" type="action" class="btn-primary"/>
+                    </header>
+                    <sheet class="oe_form_sheet_width">
+                        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            <button name="open_order_lines_calendar" type="object" class="oe_stat_button" icon="fa-list-alt">
+                                <span class="o_stat_text">Calendar</span>
+                            </button>
+                            <button name="open_order_lines_kanban" type="object" class="oe_stat_button" icon="fa-th-large">
+                                <span class="o_stat_text">Kanban</span>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group name="group_top">
+                            <group name="group_top_left" >
+                                <field name="order_number"/>
+                                <field name="priority" widget="priority"/>
+                                <field name="company_id"/>
+                                <field name="planned_start_datetime"/>
+                                <field name="deadline_datetime"/>
+                                <field name="planned_duration" widget="float_time"/>
+                                <field name="line_count"/>
+                                
+                            </group>
+                            <group>
+                                <field name="requested_employee_ids" widget="many2many_tags"/>
+                                <field name="create_date" string="Order recieved"/>
+                                <field name="date_start"/>
+                                <!-- <field name= "time_until_work_start" widget="float_time"/> -->
+                                <field name="date_end"/>
+                                <!-- <field name= "time_until_work_done" widget="float_time"/> -->
+                                <field name="total_duration"/>
+
+                            </group>
+                        </group>
+                        <notebook name="Main_order_notebook">
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page string="Object Description">
+                                <group>
+
+                                    <field name="product_type" widget="many2one"/>
+                                    <field name="brand"/>
+                                    <field name="model"/>
+                                    <field name="serial_number"/>
+                                    <field name="product_number"/>
+                                    <field name="marking"/>
+                                    <field name="purchase_date"/>
+                                </group>
+                            </page>
+
+                            <page string="Instructions">
+                                <group>
+                                    <field name="work_instructions"/>
+                                    <field name="location_instructions"/>
+                                </group>
+                            </page>
+                            <page string="Ocassions">
+                                <button name="create_occasion" string="Create Occasion" type="object"/>
+
+                                <field name="order_line_ids">
+                                    <list editable="bottom" create="0">
+                                        
+                                        <field name="stage_id"/>
+                                        <field name="date_start"/>
+                                        <field name="date_end"/>
+                                        <button name="open_planning_view" string="Planning" type="object" class="btn-secondary"/>
+                                        <button name="open_reporting_view" string="Reporting" type="object" class="btn-secondary"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Stakeholder">
+                                <field name="stakeholder_ids">
+                                    <list editable="bottom">
+                                        <field name="partner_id"/>
+                                        <field name="partner_status"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_fieldservice_order_tree" model="ir.ui.view">
+            <field name="name">fieldservice.order.tree</field>
+            <field name="model">fieldservice.order</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="stage_id"/>
+                    <field name="priority" widget="priority"/>
+                    <field name="planned_start_datetime"/>
+                    <field name="deadline_datetime"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_fieldservice_order_kanban" model="ir.ui.view">
+            <field name="name">fieldservice.order.kanban</field>
+            <field name="model">fieldservice.order</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="stage_id" class="o_kanban_small_column" on_create="quick_create">
+                    <field name="name"/>
+                    <field name="stage_id"/>
+                    <field name="priority"/>
+                    <field name="planned_start_datetime"/>
+                    <templates>
+                        <t t-name="menu">
+                            <t t-if="widget.editable">
+                                <a role="menuitem" type="open" class="dropdown-item">Edit</a>
+                            </t>
+                            <t t-if="widget.deletable">
+                                <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                            </t>
+                        </t>
+                        <t t-name="card">
+                            <field class="fw-bold fs-5" name="name"/>
+                            <div class="pt-2">
+                                <span t-if="record.address.raw_value">Address: </span>
+                                <field name="address" />
+                            </div>
+                            <footer class="mt-auto pt-2">
+                                <div class="d-lg-contents">
+                                    <div>
+                                        <field name="priority" widget="priority"/>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <field name="planned_start_datetime" widget="date"/>
+                                        <field name="deadline_datetime" widget="date"/>
+                                    </div>
+                                </div>
+                            </footer>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <!-- Define the Pivot View -->
+        <record id="view_fieldservice_order_pivot" model="ir.ui.view">
+            <field name="name">fieldservice.order.view.pivot</field>
+            <field name="model">fieldservice.order</field>
+            <field name="arch" type="xml">
+                <pivot string="Service Request">
+                    <field name="planned_duration" type="measure" widget="float_time"/>
+                    <!-- <field name="time_until_work_start" type="measure" widget="float_time"/>
+                    <field name="time_until_work_start_avg" type="measure" widget="float_time"/>
+                    <field name="time_until_work_start_max" type="measure" widget="float_time"/>
+                    <field name="time_until_work_done" type="measure" widget="float_time"/> -->
+                    <field name="line_count_avg" type="measure" />
+                    <field name="line_count" type="measure"/>
+                    <!-- <field name="time_until_work_done_avg" type="measure" widget="float_time"/> -->
+                </pivot>
+            </field>
+        </record>
+
+
+
+
+        <record id="view_fieldservice_order_search" model="ir.ui.view">
+            <field name="name">fieldservice.order.search</field>
+            <field name="model">fieldservice.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="stage_id"/>
+                    <field name="requested_employee_ids"/>
+                    <filter string="My Orders" name="my_orders" domain="[('requested_employee_ids', 'in', uid)]"/>
+                    <filter string="Late Orders" name="late_orders" domain="[('deadline_datetime', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter string="Ongoing" name="ongoing" domain="[('stage_id', '=', 'Ongoing')]"/>
+                    <filter string="Not done" name="not_done" domain="[('stage_id', '!=', 'Completed')]"/>
+                    <filter string="Completed" name="done" domain="[('stage_id', '=', 'Completed')]"/>
+                    <filter string="Högprioriterade" name="priority" domain="[('priority', '=', '3')]"/>
+
+                    <group name="super_group" expand="0" string="Group By">
+                        <filter string="Stage" name="group_by_stage" context="{'group_by': 'stage_id'}"/>
+                        <filter string="Priority" name="group_by_priority" context="{'group_by': 'priority'}"/>
+                        <filter string="Model" name="group_by_model" context="{'group_by': 'model'}"/>
+                        <filter string="Name" name="group_by_name" context="{'group_by': 'name'}"/>
+                        <filter string="Actuall start" name="group_by_date_start" context="{'group_by': 'date_start'}"/>
+                        <filter string="Actuall end" name="group_by_date_end" context="{'group_by': 'date_end'}"/>
+
+                        <filter string="Brand" name="group_by_brand" context="{'group_by': 'brand'}"/>
+                        <filter string="Marking" name="group_by_marking" context="{'group_by': 'marking'}"/>
+                        <filter string="Planned date" name="group_by_planned_start_datetime" context="{'group_by': 'planned_start_datetime'}"/>
+                        <!-- <filter string="Stage" name="group_by_stage" context="{'group_by': 'date_end'}"/>
+                        <filter string="Stage" name="group_by_stage" context="{'group_by': 'date_end'}"/> -->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_fieldservice_order" model="ir.actions.act_window">
+            <field name="name">Field Service Orders</field>
+            <field name="res_model">fieldservice.order</field>
+            <field name="view_mode">kanban,list,form,calendar,pivot</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new field service order
+                </p>
+            </field>
+        </record>
+
+        <record id="action_change_company_wizard" model="ir.actions.act_window">
+            <field name="name">Change Company</field>
+            <field name="res_model">change.company.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_fieldservice_root" name="Field Service" sequence="40"/>
+        <menuitem id="menu_fieldservice_order" name="Orders" parent="menu_fieldservice_root" action="action_fieldservice_order" sequence="10"/>
+    </data>
+</odoo>

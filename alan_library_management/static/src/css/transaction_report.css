@@ -1,0 +1,93 @@
+/* transaction_report.css */
+
+.page {
+    font-family: "Segoe UI", sans-serif;
+    color: #2c3e50;
+    background-color: #f4f6f9;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.header {
+    text-align: center;
+    border-bottom: 3px solid #2980b9;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.header h2 {
+    color: #2980b9;
+    font-size: 28px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.company_logo img {
+    margin-top: 10px;
+    max-height: 90px;
+}
+
+.report_filters {
+    font-size: 14px;
+    background-color: #ecf0f1;
+    padding: 12px;
+    border-left: 4px solid #3498db;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.report_filters .col-6 {
+    width: 48%;
+}
+
+.alert-warning {
+    background-color: #ffeaa7;
+    padding: 10px;
+    border-left: 4px solid #e17055;
+    border-radius: 5px;
+    font-weight: 600;
+    color: #2d3436;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.table thead {
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+}
+
+.table th, .table td {
+    border: 1px solid #dcdde1;
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f0f6fb;
+}
+
+.text-danger {
+    color: #e74c3c !important;
+    font-weight: bold;
+}
+
+.footer {
+    margin-top: 25px;
+    font-weight: bold;
+    text-align: right;
+    color: #34495e;
+}
+

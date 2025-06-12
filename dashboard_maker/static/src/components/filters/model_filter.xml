@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ModelFiltersTemplate">
+        <div class="w-100 btn" style="border: 1px solid black;">
+            <h5 class="o_dropdown_title d-inline">
+                 <span class="me-2"><t t-out="model_name"/></span>
+                 <button type="button" class="btn btn-secondary"  t-on-click.prevent="onEditDialogBtnClick">
+                     <i class="fa fa-filter" t-att-data-resModel="model"/> Full Filters
+                 </button>
+            </h5>
+            <t t-if="fields_data">
+                <table style="width:100%;">
+                    <colgroup>
+                        <col style="width: 35%;"/>
+                        <col style="width: 65%;"/>
+                      </colgroup>
+                    <tr t-foreach="nodes" t-as="node" t-key="node.path">
+                        <DmFieldFilter node="node" fieldDef="fieldDefs[node.path]" onUpdate="(domain, path) => this.onUpdateFilter(domain, path)"/>
+                    </tr>
+                </table>
+            </t>
+        </div>
+    </t>
+</templates>

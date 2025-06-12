@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--       # employee active warning list view template                  -->
+
+    <template id="active_warning_list_view_temp_id" name="Active Warning">
+        <t t-call="portal.portal_layout">
+            <t t-if="checkouts" t-call="portal.portal_table">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Active Warnings</th>
+                        <th>Reason</th>
+                        <th>#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="checkouts" t-as="doc">
+                        <td>
+                            <a t-attf-href="/active/warning/{{slug(doc)}}">
+                                <span t-field="user.name"/>
+                            </a>
+                        </td>
+                        <td>
+                            <span t-field="doc.number_of_days"/>
+                        </td>
+                        <td>
+                            <!--                            <span t-field="doc.number_of_days"/>-->
+                        </td>
+                        <td>
+                            <span t-field="doc.number_of_days"
+                                  class="badge badge-pill badge-info"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+            <t t-else="">
+                <div class="alert alert-warning" role="alert">
+                    There are no Record Found.
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!--    employee active warnings form view template            -->
+
+    <template id="active_warning_form_view_temp_id" name="Active Warning Form View">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <h3>Active Warnings</h3>
+                <t t-if="checkouts">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Warning</th>
+                                <th>Warning Date</th>
+                                <th>Warning Reason</th>
+                                <th>Potential Consequences</th>
+                                <th>State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="checkouts" t-as="doc">
+                                <td>
+                                    <span t-field="doc.employee_id.name"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.warning"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.warning_date"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.warning_reason"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.potential_con"/>
+                                </td>
+                                <td>
+                                    <span t-field="doc.state"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <t t-else="">
+                    <div class="alert alert-warning" role="alert">
+                        No Active Warning found.
+                    </div>
+                </t>
+            </div>
+        </t>
+
+    </template>
+</odoo>

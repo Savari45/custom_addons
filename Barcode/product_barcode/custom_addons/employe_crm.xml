@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+<!--        <record id="action_update_notes" model="ir.actions.server">-->
+<!--            <field name="name">Update Notes for Selected Emails</field>-->
+<!--            <field name="model_id" ref="model_crm_lead_employee"/>-->
+<!--            <field name="state">code</field>-->
+<!--            <field name="code">-->
+<!--selected_ids = env.context.get('active_ids', [])-->
+<!--if selected_ids:-->
+<!--    employees = env['crm.lead.employee'].browse(selected_ids)-->
+<!--    notes_value = employees[0].notes if employees else ""-->
+<!--    employees.write({'notes': notes_value})-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="crm_lead_employee_action_update_notes" model="ir.actions.server">
+            <field name="name">Update Notes</field>
+            <field name="model_id" ref="model_crm_lead_employee"/>
+            <field name="binding_model_id" ref="model_crm_lead_employee"/>
+            <field name="state">code</field>
+            <field name="code">
+selected_ids = env.context.get('active_ids', [])
+if selected_ids:
+    employees = env['crm.lead.employee'].browse(selected_ids)
+    notes_value = employees[0].notes if employees else ""
+    employees.write({'notes': notes_value})
+            </field>
+        </record>
+        <record id="crm_lead_employee_action_update_last_date" model="ir.actions.server">
+            <field name="name">Update Last Date</field>
+            <field name="model_id" ref="model_crm_lead_employee"/>
+            <field name="binding_model_id" ref="model_crm_lead_employee"/>
+            <field name="state">code</field>
+             <field name="code">
+
+selected_ids = env.context.get('active_ids', [])
+if selected_ids:
+    employees = env['crm.lead.employee'].browse(selected_ids)
+    notes_value = employees[0].notes if employees else ""
+    last_date_value = datetime.date.today()  # current date set karna
+    employees.write({
+        'notes': notes_value,
+        'last_date': last_date_value
+    })
+            </field>
+        </record>
+
+
+
+        <record id="crm_employe_view_tree" model="ir.ui.view">
+            <field name="name">crm_employe_view_tree</field>
+            <field name="model">crm.lead.employee</field>
+            <field name="arch" type="xml">
+                <tree string="crm_employe_tree" editable="bottom">
+                    <field name="lead_name"/>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="job_title"/>
+                    <field name="email"/>
+                    <field name="location"/>
+                    <field name="tags" widget="many2many_tags"/>
+                    <field name="stage"/>
+                    <field name="assignee_id"/>
+                    <field name="notes"/>
+                    <field name="last" optional="1"/>
+                    <field name="last_date" widget="date" optional="1"/>
+                    <field name="next" optional="1"/>
+                    <field name="next_date" widget="date" optional="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="crm_employe_view_search" model="ir.ui.view">
+            <field name="name">crm.lead.employee.search</field>
+            <field name="model">crm.lead.employee</field>
+            <field name="arch" type="xml">
+                <search string="Employee Search">
+                    <field name="lead_name"/>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                    <field name="job_title"/>
+                    <field name="email"/>
+                    <field name="location"/>
+                    <field name="tags"/>
+                    <field name="stage"/>
+                    <field name="notes"/>
+                    <field name="assignee_id"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="crm_employe_action" model="ir.actions.act_window">
+            <field name="name">Employee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">crm.lead.employee</field>
+            <field name="view_mode">tree,form,search</field>
+        </record>
+
+        <menuitem id="crm_employe" name="Employee Information" parent="crm.crm_menu_root" action="crm_employe_action" sequence="0"/>
+
+    </data>
+</odoo>

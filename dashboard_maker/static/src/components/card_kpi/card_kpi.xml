@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="CardKpiTemplate">
+        <div t-attf-style="background-color: {{props.data.bg_color}}; border: 1px solid {{props.data.border_color}}" t-attf-class="dm_scorecard_{{props.data.card_format}} dm_card">
+            <t t-if="['format_1', 'format_2', 'format_3', 'format_4', 'format_5', 'format_10'].includes(props.data.card_format)">
+                <div class="title" t-attf-style="color: {{props.data.title_color}};">
+                    <t t-out="props.data['title']"/>
+                    <ItemOptions title="''" item_id="props.item_id" type="'card'" is_admin="props.is_admin"/>
+                </div>
+                <t t-if="props.data.show_records">
+                    <div class="value" t-attf-style="color: {{props.data.value_color}}; display: inline-block;" t-on-click="()=>this.onClickValue()">
+                        <t t-out="props.data['value']"/>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="value" t-attf-style="color: {{props.data.value_color}}; display: inline-block;">
+                        <t t-out="props.data['value']"/>
+                    </div>
+                </t>
+
+            </t>
+            <t t-else="">
+                <t t-if="props.data.show_records">
+                    <div class="value" t-attf-style="color: {{props.data.value_color}}; display: inline-block;" t-on-click="()=>this.onClickValue()">
+                        <t t-out="props.data['value']"/>
+                    </div>
+                </t>
+                <t t-else="">
+                    <div class="value" t-attf-style="color: {{props.data.value_color}}; display: inline-block;">
+                        <t t-out="props.data['value']"/>
+                    </div>
+                </t>
+                <div class="title" t-attf-style="color: {{props.data.title_color}};">
+                    <t t-out="props.data['title']"/>
+                    <ItemOptions title="''" item_id="props.item_id" type="'card'" is_admin="props.is_admin"/>
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

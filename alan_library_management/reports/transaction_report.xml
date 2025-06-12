@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- QWeb Report Template -->
+        <template id="transaction_report">
+            <t t-call="web.html_container">
+                <!-- Link custom CSS -->
+                <t t-set="css_files" t-value="['/alan_library_management/static/src/css/transaction_report.css']"/>
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="header">
+<!--                            <h2>Library Transactions Report</h2>-->
+                            <div class="header" style="border:2px solid red; text-align:center; margin-bottom:20px;">
+                                <h2 style="color:#2c3e50;">Library Transactions Report</h2>
+                                <p style="color:green;">Header is rendering!</p>
+                            </div>
+                        </div>
+
+                        <div class="report_filters row mb-4">
+                            <div class="col-6">
+                                <strong>Date From:</strong>
+                                <span t-esc="date_from"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Date To:</strong>
+                                <span t-esc="date_to"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Status:</strong>
+                                <span t-esc="state"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Report Date:</strong>
+                                <span t-esc="current_date"/>
+                            </div>
+                        </div>
+
+                        <t t-if="not transactions">
+                            <div class="alert alert-warning">
+                                No transactions found for the selected filters.
+                            </div>
+                        </t>
+
+                        <t t-if="transactions">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Book</th>
+                                        <th>Member</th>
+                                        <th>Borrow Date</th>
+                                        <th>Expected Return</th>
+                                        <th>Actual Return</th>
+                                        <th>Status</th>
+                                        <th>Fine Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="transactions" t-as="t">
+                                        <tr>
+                                            <td><span t-esc="t['id']"/></td>
+                                            <td><span t-esc="t['book_name']"/></td>
+                                            <td><span t-esc="t['member_name']"/></td>
+                                            <td><span t-esc="t['borrow_date']"/></td>
+                                            <td><span t-esc="t['expected_return_date']"/></td>
+                                            <td><span t-esc="t['actual_return_date']"/></td>
+                                            <td>
+                                                <span t-esc="t['state']"
+                                                      t-att-class="'text-danger' if t['state'] == 'overdue' else ''"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="t['fine_amount']"
+                                                      t-att-class="'text-danger' if float(t['fine_amount']) > 0 else ''"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+
+                        <div class="footer mt-4">
+                            <p>Total Transactions: <span t-esc="transaction_count"/></p>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Report Action -->
+        <record id="action_report_library_transaction" model="ir.actions.report">
+            <field name="name">Transaction Report</field>
+            <field name="model">library.transaction.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">alan_library_management.transaction_report</field>
+            <field name="print_report_name">'Library Transaction Report'</field>
+        </record>
+
+        <!-- Wizard Form View -->
+        <record id="view_transaction_report_wizard_form" model="ir.ui.view">
+            <field name="name">transaction.report.wizard.form</field>
+            <field name="model">library.transaction.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Transaction Report">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_print_report" string="Generate Report" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_transaction_report_wizard" model="ir.actions.act_window">
+            <field name="name">Transaction Report</field>
+            <field name="res_model">library.transaction.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!-- Menu -->
+        <menuitem id="menu_library_reports" name="Reports" parent="menu_library_root"/>
+        <menuitem id="menu_transaction_report"
+                  name="Transaction Report"
+                  parent="menu_library_reports"
+                  action="action_transaction_report_wizard"
+                  sequence="10"/>
+    </data>
+</odoo>

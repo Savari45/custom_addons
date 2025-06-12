@@ -1,0 +1,100 @@
+<odoo>
+    <!--     Portal Announcement list view-->
+    <template id="portal_announcement_list_view_temp_id" name="Portal Announcement Lists">
+        <t t-call="portal.portal_layout">
+
+            <t t-if="checkouts" t-call="portal.portal_table">
+                <h3>Portal Announcement</h3>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Department</th>
+                        <th>Posted Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="checkouts" t-as="doc">
+                        <td>
+                            <a t-attf-href="/my/announcement-list/{{slug(doc)}}">
+                                <span t-field="doc.name"/>
+                            </a>
+                        </td>
+                        <td>
+                            <span t-field="doc.department_id.name"/>
+                        </td>
+                        <td>
+                            <span t-field="doc.post_date"/>
+                        </td>
+                        <td>
+                            <span t-field="doc.description"/>
+                        </td>
+
+
+
+                    </tr>
+                </tbody>
+            </t>
+            <t t-else="">
+                <div class="alert alert-warning" role="alert">There are no Record Found.</div>
+            </t>
+        </t>
+    </template>
+
+
+    <!-- Portal Announcement form view -->
+    <template id="portal_announcement_form_view_temp_id" name="Portal Announcement Form View">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <h3>Announcement Details</h3>
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Title -->
+                        <p class="card-title">
+                            <strong>Title:</strong>
+                            <span t-out="doc.name"/>
+                        </p>
+
+                        <!-- Department -->
+                        <p class="card-text">
+                            <strong>Department:</strong>
+                            <span t-out="doc.department_id.name"/>
+                        </p>
+
+                        <!-- Posted Date -->
+                        <p class="card-text">
+                            <strong>Posted Date:</strong>
+                            <span t-out="doc.post_date"/>
+                        </p>
+
+<!--                        Description-->
+                        <p class="card-text">
+                            <strong>Description</strong>
+                            <span t-out="doc.description"/>
+                        </p>
+
+                        <!-- Back to list button -->
+                        <div class="text-center">
+                            <a href="/my/announcement" class="btn btn-secondary mt-3">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!--             # template for breadcrumb                    -->
+
+    <!-- Breadcrumb for Announcement -->
+    <template id="portal_announcement_portal_layout" name="Portal breadcrumb: Announcement"
+              inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <!-- Link back to the announcement list view -->
+            <li t-if="page_name == 'portal_announcement' " class="breadcrumb-item">
+                <a t-attf-href="/my/announcement?{{keep_query()}}">Announcements</a>
+            </li>
+        </xpath>
+    </template>
+
+
+</odoo>

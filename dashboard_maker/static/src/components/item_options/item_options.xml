@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ItemOptions">
+        <t t-if="props.type=='card'">
+          <span class="dm_card_options">
+              <t t-if="props.is_admin">
+              <Dropdown>
+                    <button
+                            class="d-print-none btn rounded-start-0"
+                            title="Date Filters"
+                            style="padding:0px;"
+                    >
+                        <i class="fa fa-bars" aria-hidden="true"/>
+                    </button>
+                    <t t-set-slot="content">
+                        <t t-foreach="options" t-as="option" t-key="option_index">
+                            <CheckboxItem class="{ selected: false }" checked="false"
+                                          onSelected="() => this.performOptionOperation(option.name)">
+                                <span class="d-flex p-0 align-items-center justify-content-between">
+                                    <span t-out="option.title"/>
+                                </span>
+                            </CheckboxItem>
+                        </t>
+                    </t>
+                </Dropdown>
+              </t>
+          </span>
+        </t>
+        <t t-else="">
+            <div class="d-flex justify-content-between px-3 py-2 gap-1">
+              <h3 class="start" style="display: inline; overflow: hidden;"><t t-out="props.title"/></h3>
+              <span class="end">
+                  <t t-if="props.is_admin">
+                     <Dropdown>
+                        <button
+                                class="d-print-none btn rounded-start-0"
+                                title="Date Filters"
+                                style="padding:0px;"
+                        >
+                            <i class="fa fa-bars" aria-hidden="true"/>
+                        </button>
+                        <t t-set-slot="content">
+                            <t t-foreach="options" t-as="option" t-key="option_index">
+                                <CheckboxItem class="{ selected: false }" checked="false"
+                                              onSelected="() => this.performOptionOperation(option.name)">
+                                    <span class="d-flex p-0 align-items-center justify-content-between">
+                                        <span t-out="option.title"/>
+                                    </span>
+                                </CheckboxItem>
+                            </t>
+                        </t>
+                    </Dropdown>
+                  </t>
+              </span>
+            </div>
+        </t>
+    </t>
+</templates>
