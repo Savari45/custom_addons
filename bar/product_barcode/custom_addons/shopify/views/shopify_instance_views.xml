@@ -1,0 +1,57 @@
+<odoo>
+    <record id="view_shopify_instance_tree" model="ir.ui.view">
+        <field name="name">shopify.instance.tree</field>
+        <field name="model">shopify.instance</field>
+        <field name="arch" type="xml">
+            <tree string="Shopify Instances">
+                <field name="name"/>
+                <field name="shopify_domain"/>
+                <field name="shopify_token"/>
+                <field name="api_key"/>
+                <field name="api_secret_key"/>
+                <field name="webhooks_secret_key"/>
+                <field name="shopify_location_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_shopify_instance_form" model="ir.ui.view">
+        <field name="name">shopify.instance.form</field>
+        <field name="model">shopify.instance</field>
+        <field name="arch" type="xml">
+            <form string="Shopify Instance">
+                <sheet>
+                    <header>
+                        <button name="check_shopify_credentials" type="object" string="Check Token"
+                                class="btn-primary"/>
+                    </header>
+                    <group>
+                        <field name="name"/>
+                        <field name="shopify_domain"/>
+                        <field name="shopify_token"/>
+                        <field name="api_key"/>
+                        <field name="api_secret_key"/>
+                        <field name="webhooks_secret_key"/>
+                        <field name="shopify_location_id"/>
+
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_shopify_instance" model="ir.actions.act_window">
+        <field name="name">Shopify Instances</field>
+        <field name="res_model">shopify.instance</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Create and manage your Shopify instance connections.</p>
+        </field>
+    </record>
+    <menuitem id="shopify_instance_menu"
+              name="Shopify Instances"
+              parent="menu_shopify_order_import_root"
+              action="action_shopify_instance"
+              sequence="20"/>
+</odoo>

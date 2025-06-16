@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="action_sale_order_mark_full_delivery" model="ir.actions.server">
+            <field name="name">Mark as Full Delivered</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">records.action_mark_full_delivery()</field>
+            <field name="binding_view_types">list</field> <!-- Show only on tree view -->
+        </record>
+
+
+        <!-- Inherit the sale.order form view -->
+        <record id="view_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+
+
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <!--                    <field name="payment_status"/>-->
+
+                    <field name="tracking_number" readonly="1"/>
+                    <field name="delivery_partner" readonly="1"/>
+                    <field name="shopify_order_id" readonly="1"/>
+                    <!--                    <field name="shopify_payment_status" readonly="1"/>-->
+
+                </xpath>
+                <!-- Add the delivery_status field to the form view if not already there -->
+                <xpath expr="//field[@name='delivery_status']" position="attributes">
+                    <attribute name="widget">statusbar</attribute>
+                    <attribute name="options">{"clickable": true}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_order_tree_inherit_intransit_days" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.intransit_days</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='commitment_date']" position="after">
+                    <field name="intransit_days"/>
+                    <field name="tracking_number"/>
+                    <field name="delivery_partner"/>
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+    </data>
+</odoo>

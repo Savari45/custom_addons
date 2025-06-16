@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_product_form_inherit_shopify" model="ir.ui.view">
+            <field name="name">product.product.form.inherit.shopify</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_import_shopify_stock"
+                            type="object"
+                            string="Import Shopify Stock"
+                            class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+        <!-- views/product_views.xml -->
+
+        <record id="view_product_form_inherit_shopify" model="ir.ui.view">
+            <field name="name">product.product.form.inherit.shopify</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_code']" position="after">
+                    <field name="shopify_product_id"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

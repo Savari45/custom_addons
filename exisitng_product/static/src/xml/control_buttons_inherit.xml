@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <templates id="template" xml:space="preserve">
+        <t t-name="exisitng_product.ControlButtons" t-inherit="point_of_sale.ControlButtons" t-inherit-mode="extension">
+            <xpath expr="//t[@t-if='props.showRemainingButtons']/div/OrderlineNoteButton" position="after">
+                <t t-if="props.line and props.line.margin_percent">
+                    <span class="badge bg-success text-light ms-3">
+                        Margin: <t t-esc="props.line.margin_percent.toFixed(2)" />%
+                    </span>
+                </t>
+            </xpath>
+        </t>
+    </templates>
+

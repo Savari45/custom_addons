@@ -1,0 +1,17 @@
+<odoo>
+    <data noupdate="1">
+
+        <!-- Scheduled Action to update intransit_days field -->
+        <record id="ir_cron_update_intransit_days" model="ir.cron">
+            <field name="name">Update In Transit Days</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">model.compute_intransit_days_cron()</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="interval_number">1</field>  <!-- runs every 1 day -->
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

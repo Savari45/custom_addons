@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_full_delivery_sale_full_delivery,sale_full_delivery.sale_full_delivery,model_sale_full_delivery_sale_full_delivery,base.group_user,1,1,1,1
