@@ -4,7 +4,7 @@
        t-inherit="point_of_sale.PartnerLine" t-inherit-mode="extension" owl="1">
         <!--Inherit point_of_sale.PartnerLine to incorporate the partner's
         WhatsApp number into the partner line.-->
-        <xpath expr="//div[hasclass('email-field')]" position="after">
+        <xpath expr="//td[hasclass('partner-line-email')]" position="after">
             <div t-if="props.partner.whatsapp_number" class="email-field mb-2">
                 <i class="fa fa-whatsapp me-2"/>
                 <t t-esc="props.partner.whatsapp_number"/>

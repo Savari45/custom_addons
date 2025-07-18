@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_picking_form_inherit_branch_company" model="ir.ui.view">
+        <field name="name">stock.picking.form.branch.company</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_all_product_transfer"
+                        type="object"
+                        string="Create Branch Transfer"
+                        class="btn-primary"
+
+                />
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

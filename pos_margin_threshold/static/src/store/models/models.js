@@ -1,8 +1,8 @@
 /** @odoo-module **/
 
 import { patch } from "@web/core/utils/patch";
-import { Order } from "@point_of_sale/app/store/pos_store";
-import { Orderline } from "@point_of_sale/app/store/pos_store";
+import { PosOrder } from "@point_of_sale/app/models/pos_order";
+import { PosOrderline } from "@point_of_sale/app/models/pos_order_line";
 import { Product } from "@point_of_sale/app/store/pos_store";
 import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { ConfirmPopup } from "@point_of_sale/app/popup/confirm_popup";

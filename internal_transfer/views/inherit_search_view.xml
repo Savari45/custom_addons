@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+     <record id="inherit_internal_list_view" model="ir.ui.view">
+        <field name="name">stock.picking.internal.stock.list</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <field name="location_dest_id" position="after">
+                <field name="total_transfer_cost" optional="True"/>
+            </field>
+        </field>
+    </record>
+</odoo>

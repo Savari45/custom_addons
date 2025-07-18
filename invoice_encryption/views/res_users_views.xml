@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_users_form_inherit_encryption" model="ir.ui.view">
+        <field name="name">res.users.inherit.encryption</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//sheet" position="inside">
+                <field name="groups_id" invisible="1"/>
+                <field name="can_view_encryption" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

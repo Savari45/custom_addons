@@ -1,0 +1,30 @@
+.pos .product-card-extend .multi-variant {
+    float: left;
+    font-size: 13px;
+    padding: 1px;
+    border-radius: 5px;
+    min-height: 14px;
+    width: 33%;
+    font-weight: 900;
+}
+
+.pos .product-card-extend .count-product-in-cart{
+    position: relative;
+    &:after{
+        border-radius: 10rem;
+        background: #ff5722;
+        color: #fff;
+        content: attr(badge);
+        font-size: 13px;
+        padding: 2px;
+        position: absolute;
+        text-align: center;
+        min-width: 20px;
+        left: 0.9em;
+        bottom: 0.9em;
+        line-height: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

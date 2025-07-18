@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="WhatsAppButton" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension">
+        <xpath expr="//div[@class='order-buttons']" position="inside">
+            <div class="button whatsapp-button" role="button">
+                <i class="fa fa-whatsapp"></i>
+                <span>Send via WhatsApp</span>
+            </div>
+        </xpath>
+    </t>
+</templates>

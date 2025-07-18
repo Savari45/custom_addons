@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_encryption_admin,access.report.encryption.admin,invoice_encryption.model_report_encryption,base.group_user,1,1,1,1
+access_signature_verifier,access.signature.verifier,invoice_encryption.model_signature_verifier,base.group_user,1,1,1,1
+

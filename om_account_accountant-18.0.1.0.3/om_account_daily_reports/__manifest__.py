@@ -1,0 +1,28 @@
+{
+    'name': 'Cash Book, Day Book, Bank Book Financial Reports',
+    'version': '1.0.1',
+    'category': 'Invoicing Management',
+    'summary': 'Cash Book, Day Book and Bank Book Report For Odoo 18',
+    'description': 'Cash Book, Day Book and Bank Book Report For Odoo 18',
+    'sequence': '10',
+    'author': 'Alan Technologies',
+    'license': 'LGPL-3',
+    'company': 'Alan Technologies',
+    'maintainer': 'Alan Technologies',
+    'support': 'support@alantechnologies.com',
+    'website': 'https://alantechnologies.in/',
+    'depends': ['account', 'accounting_pdf_reports'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/om_daily_reports.xml',
+        'wizard/daybook.xml',
+        'wizard/cashbook.xml',
+        'wizard/bankbook.xml',
+        'report/reports.xml',
+        'report/report_daybook.xml',
+        'report/report_cashbook.xml',
+        'report/report_bankbook.xml',
+    ],
+
+    'images': ['static/description/banner.gif'],
+}

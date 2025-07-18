@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="inherit_report_delivery_document" inherit_id="stock.report_delivery_document">
+        <xpath expr="//table[@name='stock_move_line_table']" position="after">
+            <t t-set="total_cost" t-value="sum(o.move_ids.mapped(lambda m: m.quantity * m.product_id.standard_price))"/>
+            <p class="text-end mt-3">
+                <strong>Total Transfer Cost:</strong>
+                <span t-esc="total_cost"
+                      t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+            </p>
+        </xpath>
+    </template>
+</odoo>

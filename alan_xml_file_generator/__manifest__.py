@@ -29,6 +29,7 @@
     'company': 'Alan Technologies',
     'maintainer': 'Alan Technologies',
     'website': "https://alantechnologies.in/",
+    'support': 'alantechnologies2022@gmail.com',
     "license": "AGPL-3",
     'category': 'Accounting',
     'version': '18.0.1.0.0',

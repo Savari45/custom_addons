@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_margin_template" inherit_id="point_of_sale.template" xml:space="preserve">
+
+    <t t-name="OrderWidget" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('order-summary')]" position="after">
+            <t t-if="pos.mainScreen.component.name == 'ProductScreen'">
+                <t t-set="custom_margin" t-value="getMargin()"/>
+                <div>
+                    Total Margin:
+                    <span t-esc="custom_margin" class="total"/>
+                    (<span t-esc="getMarginPercentage()" class="total"/>)
+                </div>
+            </t>
+        </xpath>
+    </t>
+
+    <t t-name="bi_pos_screen_margin.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('justify-content-between')]" position="after">
+            <t t-if="pos.mainScreen.component.name == 'ProductScreen'">
+                <span class="product-name">
+                    <i>  Margin : <t t-esc="props.line.custom_margin"/>
+                        (<t t-esc="props.line.custom_margin_percent.toFixed(2)"/>%)
+                    </i>
+
+                </span>
+            </t>
+        </xpath>
+    </t>
+
+</templates>
+

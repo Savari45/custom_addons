@@ -3,7 +3,10 @@
 // @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 // License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import {Order, Orderline} from "@point_of_sale/app/store/models";
+//import {Order, Orderline} from "@point_of_sale/app/store/models";
+import { PosOrderline } from "@point_of_sale/app/models/pos_order_line";
+import { PosOrder } from "@point_of_sale/app/models/pos_order";
+import { Orderline } from "@point_of_sale/app/generic_components/orderline/orderline";
 import {patch} from "@web/core/utils/patch";
 
 // /////////////////////////////

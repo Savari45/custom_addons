@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="adevx_pos_product_management.ProductOnHand">
+        <span t-attf-class="{{props.class}}"
+              t-on-click.stop="() => this.updateStockEachLocation()"
+              t-on-mouseover.stop="() => this._loadStock(props.productId)"
+              t-att-class="addedClasses"
+              title="Available Quantity in Stock">
+            <span> </span>
+            <i class="fa fa-cubes"/>
+            <t t-esc="this.product.qty_available"/>
+        </span>
+    </t>
+
+</templates>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherit stock move line table row -->
+    <template id="custom_delivery_move_product_name"
+              inherit_id="stock.report_delivery_document"
+              priority="20">
+
+        <!-- Override product display in undelivered stock move table -->
+        <xpath expr="//table[@name='stock_move_table']//tr/t-foreach/t/td[1]/span[@t-field='move.product_id']"
+               position="replace">
+            <span t-field="move.product_id.name"/>
+        </xpath>
+
+        <!-- Override product display in backorder section -->
+        <xpath expr="//table[@name='stock_backorder_table']//tr/t-foreach/t[1]/span[@t-field='bo_line.product_id']"
+               position="replace">
+            <span t-field="bo_line.product_id.name"/>
+        </xpath>
+    </template>
+
+    <!-- Inherit serial move line template -->
+    <template id="custom_has_serial_move_line_product"
+              inherit_id="stock.stock_report_delivery_has_serial_move_line"
+              priority="20">
+
+        <xpath expr="//td[1]/span[@t-field='move_line.product_id']"
+               position="replace">
+            <span t-field="move_line.product_id.name"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    <!-- ✅ Server Action: Call the Signature Method -->
+    <record id="action_generate_invoice_signature" model="ir.actions.server">
+        <field name="name">Generate Invoice Signature</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+            if record.state == 'posted' and record.move_type in ('out_invoice', 'out_refund'):
+                record.action_report()
+        </field>
+    </record>
+
+    <!-- ✅ Automated Action: Trigger on Confirmed Invoice -->
+    <record id="automated_action_generate_invoice_signature" model="base.automation">
+        <field name="name">Auto Sign Invoice on Validation</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="trigger">on_create_or_write</field>
+        <field name="filter_domain">[('state', '=', 'posted'), ('move_type', 'in', ['out_invoice', 'out_refund'])]</field>
+        <field name="action_server_ids" eval="[(4, ref('action_generate_invoice_signature'))]"/>
+    </record>
+</odoo>

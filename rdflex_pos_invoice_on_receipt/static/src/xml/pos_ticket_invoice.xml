@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="PosTicket">
+        <t t-jquery=".pos-center-align" t-operation="after">
+            <t t-set="client" t-value="order.get('client')"/>
+            <div t-if="client">Customer Name: <t t-esc="client.name"/></div>
+            <div t-if="order.invoice_number">Invoice Number: <t t-esc="order.invoice_number"/></div>
+        </t>
+    </t>
+</templates>

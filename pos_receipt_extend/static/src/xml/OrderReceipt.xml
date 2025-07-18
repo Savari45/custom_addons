@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--To add the customer details in the settings page-->
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.ReceiptHeader"
+       t-inherit-mode="extension" owl="1">
+        <xpath expr="//h1[hasclass('tracking-number')]" position="replace">
+
+        </xpath>
+        <xpath expr="//div/span[hasclass('tracking-number')]" position="replace">
+
+        </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-contact')]" position="inside">
+
+            <t t-if="this.env.services.pos.config.customer_details">
+                  <div t-if="this.env.services.pos.config.invoice_no and this.props.data.invoice_no"
+                      style="font-weight: 600; font-size: 16px;">Invoice:<t
+                          t-esc="this.props.data.invoice_no"/>
+                      <br></br>
+                </div>
+                <div t-if="this.env.services.pos.config.customer_name and this.props.data.customer_name"
+                > customer:<t
+                        t-esc="this.props.data.customer_name"/>
+                </div>
+                <div t-if="this.env.services.pos.config.customer_address and this.props.data.customer_address"
+                > Address:<t
+                        t-esc="this.props.data.customer_address"/>
+                </div>
+                <div t-if="this.env.services.pos.config.customer_mobile and this.props.data.customer_mobile"
+                >Mobile:<t
+                        t-esc="this.props.data.customer_mobile"/>
+                </div>
+                <div t-if="this.env.services.pos.config.customer_phone and this.props.data.customer_phone"
+                >Phone:<t
+                        t-esc="this.props.data.customer_phone"/>
+                </div>
+                <div t-if="this.env.services.pos.config.customer_email and this.props.data.customer_email"
+                >Email:<t
+                        t-esc="this.props.data.customer_email"/>
+                </div>
+                <div t-if="this.env.services.pos.config.customer_vat and this.props.data.customer_vat">
+                    Vat:<t
+                        t-esc="this.props.data.customer_vat"/>
+                </div>
+            </t>
+        </xpath>
+    </t>
+    <t t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('after-footer')]" position="after">
+            <t t-if="this.props.data.signature_code">
+                <div class="pos-receipt-signature"
+                     style="margin-top: 10px; padding: 8px; border-top: 1px dashed #000; border-bottom: 1px dashed #000;">
+                    <t t-esc="this.props.data.signature_code"/>
+                </div>
+            </t>
+        </xpath>
+     </t>
+</templates>

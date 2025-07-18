@@ -1,0 +1,30 @@
+.pos .qty_available {
+    padding: 3px;
+    float: right;
+    border-radius: 5px;
+    min-height: 14px;
+    text-align: right;
+    width: 33%;
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.pos .low-stock {
+    color: black !important;
+}
+
+.pos .normal-stock {
+    color: blue !important;
+}
+
+.pos .out-of-stock {
+    color: red !important;
+}
+
+.pos .qty_available .notification {
+    padding: 4px;
+    background: #6EC89B;
+    color: #fff;
+}

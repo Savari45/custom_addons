@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="adevx_pos_product_management.ProductCard" t-inherit="point_of_sale.ProductCard"
+       t-inherit-mode="extension">
+
+        <xpath expr="//div[hasclass('product-content')]" position="after">
+            <div class="product-card-extend d-flex flex-row px-2 justify-content-between rounded-bottom rounded-3 flex-shrink-1  me-2">
+                <ProductOnHand productId="props.productId" product="props.product" class="'qty_available'"
+                               t-if="_allowDisplayOnhand"/>
+                <i class="fa fa-shopping-cart"  t-if="props.productCartQty" aria-hidden="true"/>
+            </div>
+        </xpath>
+
+
+
+    </t>
+
+</templates>

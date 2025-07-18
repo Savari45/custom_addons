@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : <https://store.webkul.com/license.html/> -->
+<templates id="template" xml:space="preserve">
+    <t t-name="ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension" >
+        <xpath expr="//div[hasclass('pads')]" position="before">
+            <div>
+                <i class="pad_tg fa fa-bars fa-2x"  title='click to toggle' aria-hidden="true" 
+                    style="cursor:pointer;transform: scale(2,1);width: 100%; text-align: center;"></i>
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="ProductScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension" >
+        <xpath expr="//div[hasclass('rightpane')]" position="after">
+            <div class="rightpane wk_barcode_screen" style="width: 100%;">
+                <div class='wk_table_body'>
+                    <div>
+                        <table class='wk_orderline_table'>
+                            <thead>
+                                <tr style="background-color:#185cc1;color:#FFFFFF;">
+                                    <th style="width:40%;text-align: left;padding-left: 25px;">Product</th>
+                                    <th style="width:15%">Qty</th>
+                                    <th style="width:15%">Unit Price</th>
+                                    <th style="width:15%">Discount</th>
+                                    <th style="width:15%">Amount</th>                                                             
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class='wk_orderline_list_table' style="background-color: rgb(240, 238, 238);">
+                        <table class='wk_orderline_table'>
+                            <tbody class='wk-order-list-contents'>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="wk_summary">
+                    <table class='wk_entry'>
+                        <tr>
+                            <th><span class="wk_label">Total   :</span></th>
+                            <th><span class="value wk_total">0.00 €</span> </th>                                                       
+                        </tr>
+                         <tr>
+                            <th><span class="wk_label">Taxes:</span></th>
+                            <th class="wk_total_tax"> <span class="value subentry" style="margin-right:23px">0.00 €</span></th>                                                       
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+    </t>
+    
+    <t t-name="pos_barcode_screen.Wk-OrderLine">
+        <tr class="wk-order-line" t-att-data-id='wk_orderline.id'>
+            <t t-log="wk_orderline"/>
+            <td style="width:30%;text-align:left;padding-left:15px;">
+                <t t-esc='wk_orderline.get_product().display_name' />
+                <t t-if="wk_orderline.get_product().tracking!=='none'">
+                    <i t-attf-class="oe_link_icon fa fa-list oe_icon line-lot-icon #{wk_orderline.has_valid_product_lot() ? 'oe_green' : 'oe_red' }"/>
+                </t>
+            </td>
+            <td style="width:15%;text-align:center">
+                <t t-esc="wk_orderline.get_quantity_str()" />
+                <t t-esc='wk_orderline.get_unit().name' />
+            </td>
+            <td style="width:15%;text-align:center">
+                <t t-esc="widget.env.utils.formatCurrency(wk_orderline.get_unit_display_price(),'Product Price')" />
+                        /
+                <t t-esc="wk_orderline.get_unit().name" />
+            </td>
+            <td style="width:15%;text-align:center">
+                <t t-if="wk_orderline.discount >0">
+                    <t t-esc="wk_orderline.get_discount_str()" />%
+                </t>
+                <t t-if="!wk_orderline.discount >0">
+                    -
+                </t>
+            </td>
+            <td style="width:15%;text-align:center">
+                 <t t-esc="widget.env.utils.formatCurrency(wk_orderline.get_display_price())"/>
+            </td>
+        </tr>
+    </t>
+
+    <t t-name="Navbar" t-inherit="point_of_sale.Navbar" t-inherit-mode="extension" >
+        <xpath expr="//CashierName" position="before">
+            <div class="oe_status" t-on-click="click_barcode_button">
+                <div class="wk_barcode_screen_status oe_icon oe_green">
+                    <i class='fa fa-barcode' style="font-size: 24px;"></i>
+                </div>
+            </div>
+        </xpath>
+    </t>
+    <t t-name="OrderWidget" t-inherit="point_of_sale.OrderWidget" t-inherit-mode="extension" >
+        <xpath expr="//div[hasclass('order-container')]" position="replace">
+            <t t-if="pos.show_barcode_screen">
+                <div t-ref="scrollable" t-att-style="props.style" t-att-class="props.class" class="order-container d-flex flex-column flex-grow-1 overflow-y-auto text-start">
+                    <t t-foreach="props.lines" t-as="line" t-key="line_index">
+                        <t t-if="props.slots?.default" t-slot="default" line="line"/>
+                        <Orderline t-else="" line="line" />
+                    </t>
+                    <div class="mt-1 bg-opacity-75" t-attf-class="{{ props.screenName == 'ReceiptScreen' ? 'p-0' : 'p-2 border-bottom border-top border-opacity-75'}}" t-if="props.generalNote">
+                        <b class="fw-bolder">General Note</b>
+                        <t t-foreach="props.generalNote.split('\n')" t-as="subNote" t-key="subNote_index">
+                            <br/>
+            •                        <t t-esc="subNote"/>
+                        </t>
+                    </div>
+                </div>
+            </t>
+            <t t-if="!pos.show_barcode_screen">
+                <div class="selected_product_details">
+                        <div class="wk_image_box">
+                            <img class="wk_cart_product" t-att-src="get_selected_line_product"/>
+                            <div style="margin-top:15px">
+                                <span class="wk_selected_product_name"></span>
+                            </div>
+                        </div>
+                        <div class="wk_product_description" style="display:none">
+                            <span class="product_desc"></span>
+                        </div>
+                    <t t-if="props.lines.length == 0">
+                        <div style="text-align: center;color: #dddddd;margin-top: 81px">
+                            <i class='fa fa-shopping-cart' style="font-size:35px"/>
+                            <h1>Your shopping cart is empty</h1>
+                        </div>
+                    </t>
+                </div>
+            </t>
+
+        </xpath>
+    </t>
+</templates>

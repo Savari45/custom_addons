@@ -2,7 +2,7 @@
 // Import dependencies
 import { patch } from "@web/core/utils/patch";
 import { ReceiptScreen } from "@point_of_sale/app/screens/receipt_screen/receipt_screen";
-import { jsonrpc } from "@web/core/network/rpc_service";
+import { rpc } from "@web/core/network/rpc";
 import { _t } from "@web/core/l10n/translation";
 /**
  * Patch ReceiptScreen to include functions for sending invoices and receipts via WhatsApp.
@@ -17,7 +17,7 @@ patch(ReceiptScreen.prototype, {
         this.orderUiState.isInvoiceSending = true;
         var self = this;
         const order_id = this.currentOrder.server_id
-        jsonrpc('/web/dataset/call_kw/pos.order/action_send_invoice', {
+        rpc('/web/dataset/call_kw/pos.order/action_send_invoice', {
             model: 'pos.order',
             method: 'action_send_invoice',
             args: [0],
@@ -45,7 +45,7 @@ patch(ReceiptScreen.prototype, {
         setTimeout(async () => {
             try {
                 try {
-                    const res = await jsonrpc('/web/dataset/call_kw/pos.order/get_instance', {
+                    const res = await rpc('/web/dataset/call_kw/pos.order/get_instance', {
                         model: 'pos.order',
                         method: 'get_instance',
                         args: [0],

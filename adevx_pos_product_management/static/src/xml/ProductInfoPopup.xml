@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="adevx_pos_product_management.ProductInfoPopup" t-inherit="point_of_sale.ProductInfoPopup"
+       t-inherit-mode="extension">
+        <!-- Show/Hide Locations -->
+        <xpath expr="//div[hasclass('section-inventory')]" position="attributes">
+            <attribute
+                    name="t-if">props.info.productInfo.warehouses.length > 0 and pos.config.show_multi_location_info</attribute>
+        </xpath>
+        <!-- Show/Hide Cost -->
+        <xpath expr="//div[hasclass('section-supplier')]" position="attributes">
+            <attribute
+                    name="t-if">props.info.productInfo.suppliers.length > 0 and _hasMarginsCostsAccessRights()</attribute>
+        </xpath>
+    </t>
+
+
+</templates>

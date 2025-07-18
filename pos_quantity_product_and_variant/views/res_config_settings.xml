@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="pos_stock_info_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">sh.pos.stock.info.res.config.settings.view.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="product_and_category_block" position="after">
+                <block title="Show Only Available Quantities" name="display_only_available_products_container">
+                    <setting id="display_only_available_products">
+                        <field name='pos_show_only_available_products'/>
+                    </setting>
+                </block>
+                <block title="Show Stock Quantities" name="display_stock_quantities_container">
+                    <setting id="display_stock_quantities">
+                        <field name='pos_show_product_qty'/>
+                        <div class="d-flex" invisible="not pos_show_product_qty">
+                            <field name="pos_show_on_hand_qty" class="ml16"/>
+                            <label for="pos_show_on_hand_qty" class="o_light_label"/>
+                        </div>
+                        <div class="d-flex" invisible="not pos_show_product_qty">
+                            <field name="pos_show_virtual_qty" class="ml16"/>
+                            <label for="pos_show_virtual_qty" class="o_light_label"/>
+                        </div>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

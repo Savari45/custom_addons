@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+
+
+        <record id="action_assigned_tickets" model="ir.actions.act_window">
+            <field name="name">Assigned Tickets</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.customers</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="views" eval="[(ref('view_assigned_tickets_tree'), 'tree')]"/>-->
+            <field name="context">{'default_state':'assigned'}</field>
+            <field name="domain">[('state','=','assigned')]</field>
+        </record>
+
+        <menuitem id="menu_assigned_tickets"
+                  name="Assigned tickets"
+                  parent="menu_ticket_details"
+                  action="action_assigned_tickets"
+                  sequence="20"/>
+
+    </data>
+</odoo>

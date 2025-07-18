@@ -11,23 +11,24 @@ class PosOrderReport(models.Model):
     margin_rate = fields.Float(string="Margin Rate (%)", group_operator="avg")
 
     def _select(self):
-        return (
-            super()._select()
-            + """,
-             SUM(
-                l.price_subtotal - l.total_cost /
-                CASE COALESCE(s.currency_rate, 0)
-                    WHEN 0 THEN 1.0
-                    ELSE s.currency_rate
-                END
-             ) / NULLIF(SUM(l.price_subtotal), 0) * 100
-             AS margin_rate
-            """
-        )
+        res = super()._select()
+        res += """
+            , CASE 
+                WHEN SUM(l.price_subtotal) = 0 THEN 0
+                ELSE ROUND(SUM(
+                    (l.price_subtotal - (l.total_cost / 
+                        CASE 
+                            WHEN COALESCE(s.currency_rate, 0) = 0 THEN 1.0 
+                            ELSE s.currency_rate 
+                        END)
+                    ) 
+                ) / NULLIF(SUM(l.price_subtotal), 0) * 100, 2)
+              END AS margin_rate
+        """
+        return res
 
     def _group_by(self):
-        group_by_append = """,
-            l.price_subtotal,
-            l.total_cost
-        """
-        return super()._group_by() + group_by_append
+        res = super()._group_by()
+        # Avoid grouping by subtotal and cost directly since aggregate already used
+        # So, you **do not need to append** `l.price_subtotal, l.total_cost` in most cases
+        return res
