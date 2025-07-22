@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_wizard_report_generate_form" model="ir.ui.view">
+    <field name="name">generate.xml.report.form</field>
+    <field name="model">generate.xml.report</field>
+    <field name="arch" type="xml">
+        <form string="Report Generate Wizard" create="false" edit="false">
+            <group>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </group>
+            <field name="file_name" invisible="1"/>
+            <group>
+                <field name="file_data" filename="file_name"/>
+            </group>
+            <footer>
+                <button string="Generate Report" type="object" name="action_generate_report" class="btn-primary"/>
+                <button string="Close" class="btn-secondary" special="cancel"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</odoo>

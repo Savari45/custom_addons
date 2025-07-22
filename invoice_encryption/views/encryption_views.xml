@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Tree/List View -->
+    <record id="view_report_encryption_tree" model="ir.ui.view">
+        <field name="name">report.encryption.tree</field>
+        <field name="model">report.encryption</field>
+        <field name="arch" type="xml">
+            <list string="Encryption Keys">
+                <field name="public_key"/>
+                <field name="private_key"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_report_encryption_form" model="ir.ui.view">
+        <field name="name">report.encryption.form</field>
+        <field name="model">report.encryption</field>
+        <field name="arch" type="xml">
+            <form string="Encryption Key">
+                <sheet>
+                    <group>
+                        <field name="public_key" widget="text"/>
+                        <field name="private_key" widget="text"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_report_encryption" model="ir.actions.act_window">
+        <field name="name">Encryption </field>
+        <field name="res_model">report.encryption</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create encryption key pairs here.</p>
+        </field>
+    </record>
+
+ <menuitem id="menu_encryption_management"
+          name="Encryption Management"
+           parent="account.menu_finance_configuration"
+           groups="invoice_encryption.group_can_view_encryption"
+          action="action_report_encryption"
+          sequence="30"
+    />
+</odoo>

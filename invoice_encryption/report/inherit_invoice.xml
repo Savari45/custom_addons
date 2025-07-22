@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_add_sign_code" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='qrcode']" position="after">
+
+            <p t-if="o.signature_code">
+                <span t-field="o.signature_code"/>
+            </p>
+
+        </xpath>
+    </template>
+</odoo>

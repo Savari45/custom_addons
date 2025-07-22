@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_signature_verifier_form" model="ir.ui.view">
+        <field name="name">signature.verifier.form</field>
+        <field name="model">signature.verifier</field>
+        <field name="arch" type="xml">
+            <form string="Signature Verifier">
+                <sheet>
+                    <group>
+
+                        <field name="move_id"/>
+                        <field name="txt_file" filename="txt_filename"/>
+                        <field name="sha_file" filename="sha_filename"/>
+                        <field name="public_key" invisible="1"/>
+                        <field name="private_key" invisible="1"/>
+                        <field name="signature_string" />
+                    </group>
+                    <group>
+                        <button name="action_view_content" string="🔍 View Content" type="object" class="btn-primary"/>
+                        <button name="action_verify_signature" string="✔️ Verify Signature" type="object" class="btn-success"/>
+                    </group>
+                    <group>
+                        <field name="content_message" readonly="1"/>
+                        <field name="verification_result" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_signature_verifier_tree" model="ir.ui.view">
+        <field name="name">signature.verifier.tree</field>
+        <field name="model">signature.verifier</field>
+        <field name="arch" type="xml">
+            <list string="Signature Verifiers">
+
+                <field name="move_id"/>
+                <field name="verification_result"/>
+                <field name="signature_string"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_signature_verifier" model="ir.actions.act_window">
+        <field name="name">Signature Verifier</field>
+        <field name="res_model">signature.verifier</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+   <menuitem id="menu_signature_verifier" name="Verify Signatures"
+              parent="account.menu_finance_configuration"
+              groups="invoice_encryption.group_can_view_encryption"
+              action="action_signature_verifier"
+              sequence="31"/>
+</odoo>
+
