@@ -212,7 +212,7 @@ class GenerateXMLReport(models.TransientModel):
         source = ET.SubElement(root, 'SourceDocuments')
         sales_invoice = ET.SubElement(source, 'SalesInvoices')
 
-        invoices_ids = self.env['account.move'].search([('move_type', '=', 'out_invoice'),
+        invoices_ids = self.env['account.move'].search([('move_type', 'in',['out_invoice', 'out_refund']),
                                                         ('invoice_date', '>=', self.start_date),
                                                         ('invoice_date', '<=', self.end_date)
                                                         ])
