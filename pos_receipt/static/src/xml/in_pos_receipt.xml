@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Inherit the Indian POS ReceiptHeader -->
+    <t t-name="pos_receipt.ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension">
+        <!-- Replace the center-aligned div with a left/right layout -->
+        <xpath expr="//div[contains(@class, 'pos-receipt-center-align')]" position="replace">
+             <div style="display: flex; justify-content: space-between; width: 100%;">
+        <div style="text-align: left;">
+            <t t-if="props.data.partner and props.data.company?.country_id?.code == 'IN'">
+                <div>
+                    Bill No: <t t-out="props.data.trackingNumber"/>
+                </div>
+                <div>
+                    Name: <t t-out="props.data.partner.name"/>
+                </div>
+                <div>
+                    GSTIN: <t t-out="props.data.partner.vat  or '-'"/>
+                </div>
+            </t>
+        </div>
+                 <div style="text-align: right;">
+            <div>
+                Date: <t t-out="props.data.date or props.data.creationDate or props.data.order_date"/>
+            </div>
+                     <div>
+                <t t-if="props.data.partner and props.data.partner.phone">
+                    <t t-out="props.data.partner.phone"/>
+                </t>
+            </div>
+        </div>
+    </div>
+        </xpath>
+    </t>
+    <t t-name="pos_receipt.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+    <xpath expr="//OrderWidget" position="replace">
+        <table style="border-collapse: collapse; font-size: 14px; margin: auto; width: 100%;">
+            <thead>
+               <tr style="font-weight: 600; border-bottom: 1px solid black; border-top: 1px solid black;">
+                   <th style="text-align: left; padding: 2px 4px;">SN</th>
+                   <th style="text-align: left; padding: 2px 4px;">Particulars</th>
+                   <th style="text-align: center; padding: 2px 4px;">Qty</th>
+                   <th style="text-align: right; padding: 2px 4px;">Rate</th>
+                   <th style="text-align: right; padding: 2px 4px;">Amount</th>
+        </tr>
+    </thead>
+            <tbody>
+      <tr t-foreach="props.data.real_orderlines" t-as="line" t-key="line_index">
+    <td style="text-align: left; padding: 2px 4px;"><t t-esc="line_index + 1"/></td>
+        <td style="text-align: left; padding: 2px 4px;">
+    <t t-esc="line.productName"/>
+    <t t-if="line.discount_amount and line.discount_amount > 0">
+        <span style="color: #888; font-size: 11px;">
+            [Discount: <t t-esc="line.discount"/>% (₹<t t-esc="line.discount_amount.toFixed(2)"/>)]
+        </span>
+    </t>
+</td>
+          <td style="text-align: center; padding: 2px 4px;"><t t-esc="line.qty"/></td>
+          <td style="text-align: right; padding: 2px 4px; white-space: nowrap;"><t t-esc="line.price_without_discount"/></td>
+          <td style="text-align: right; padding: 2px 4px; white-space: nowrap;"><t t-esc="line.original_line_total"/></td>
+</tr>
+                <tr style="font-weight: bold; border-top: 1px solid black;">
+    <td colspan="2" style="text-align: right; border-top: 1px solid black;">Total:</td>
+                    <td style="text-align: center; border-top: 1px solid black;">
+        <t t-esc="props.data.real_orderlines.length"/>
+    </td>
+                    <td style="border-top: 1px solid black;"></td>
+                    <td style="text-align: right; border-top: 1px solid black;">
+       <t t-esc="props.formatCurrency(props.data.original_total)"/>
+    </td>
+</tr>
+    </tbody>
+         </table>
+        <!-- Discount and Net Bill Amount Section -->
+        <table style="width:100%; font-size:14px; margin-top:10px;">
+  <tr>
+    <td style="text-align:left;">Discount :
+     <t t-if="props.data.global_discount_percent">
+            [ <t t-esc="props.data.global_discount_percent"/>% ]
+        </t>
+    </td>
+    <td style="text-align:right;">
+        <t t-esc="props.formatCurrency(props.data.total_discount || 0)"/>
+    </td>
+</tr>
+            <tr>
+        <td style="text-align:left; font-weight:bold;">Net Bill Amount</td>
+                <td style="text-align:right; font-weight:bold; font-size:18px; border-bottom:2px solid black; border-top:2px solid black;">
+            <t t-esc="props.formatCurrency(props.data.amount_total || 0)"/>
+        </td>
+    </tr>
+</table>
+
+        <!-- Payment Details Section -->
+        <table style="width:100%; font-size:14px; margin-top:10px;">
+    <tr>
+        <td style="text-align:left; font-weight:bold;">Payment Details:</td>
+        <td></td>
+    </tr>
+            <tr t-foreach="props.data.paymentlines" t-as="pay" t-key="pay.cid">
+        <td style="text-align:left;">
+            <t t-esc="pay.name"/> :
+        </td>
+                <td style="text-align:right;">
+            <t t-esc="props.formatCurrency(pay.amount || 0)"/>
+        </td>
+    </tr>
+</table>
+
+
+    </xpath>
+        <xpath expr="//div[hasclass('pos-receipt-amount')]" position="replace"/>
+        <xpath expr="//div[hasclass('pos-receipt-taxes')]" position="replace"/>
+        <xpath expr="//div[hasclass('paymentlines')]" position="replace"/>
+           <xpath expr="//t[@t-if='props.data.total_discount']" position="replace" />
+        <xpath expr="//table[hasclass('l10n_in_hsn_summary_table')]" position="replace">
+                         <div style="padding-top:8px; font-size:12px;">
+        <b>Terms and Policies :</b>
+                             <ul style="padding-left:10px; margin: 0;">
+            <li> >> In the event of your product not meeting your expectations, we shall exchange it within 3 days of purchase provided the product is unused, unaltered and in saleable condition along with the cash memo and the price tag intact.</li>
+                                 <li> >> Discounted merchandise will not be exchanged / returned.</li>
+                                 <li> >> No cash refund will be provided.</li>
+        </ul>
+                             <p style="text-align:center; font-weight: bold; padding-top: 5px;">THANK YOU FOR SHOPPING WITH US!!!</p>
+    </div>
+                </xpath>
+
+
+</t>
+</templates>

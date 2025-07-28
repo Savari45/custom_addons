@@ -47,8 +47,7 @@ patch(PosOrder.prototype, {
             result.headerData.customer_vat = partner.vat || "";
         }
 
-        console.log('POS Order order lines Details:', result.orderlines);
-        console.log('result',result);
+
         return result;
     },
 });

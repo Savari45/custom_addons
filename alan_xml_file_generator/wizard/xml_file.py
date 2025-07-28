@@ -237,7 +237,7 @@ class GenerateXMLReport(models.TransientModel):
             ET.SubElement(document_status, 'SourceID').text = invoice.create_uid.login or 'admin'
             ET.SubElement(document_status, 'SourceBilling').text = source_billing or ''
 
-            ET.SubElement(invoice_element, 'Hash').text = invoice.signature_code or ''
+            ET.SubElement(invoice_element, 'Hash').text = invoice.invoice_sign or ''
             ET.SubElement(invoice_element, 'HashControl').text = "1"
             ET.SubElement(invoice_element, 'Period').text = str(invoice.invoice_date.month)
             ET.SubElement(invoice_element, 'InvoiceDate').text = str(invoice.invoice_date)
@@ -250,8 +250,7 @@ class GenerateXMLReport(models.TransientModel):
             # Cash VAT
             cash_vat = any(
                 tax.cash_basis_transition_account_id for line in invoice.invoice_line_ids for tax in line.tax_ids)
-            cash_vat_indicator = '1' if cash_vat else '0'
-            # Third Parties Billing
+            cash_vat_indicator = '1' if cash_vat else '0'           # Third Parties Billing
             third_party_billing = '1' if getattr(invoice, 'is_third_party_billing', False) else '0'
 
             ET.SubElement(special_regimes, 'SelfBillingIndicator').text = self_billing
